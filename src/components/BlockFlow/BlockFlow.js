@@ -1,6 +1,13 @@
 import React, { useRef, useEffect,useState } from 'react'
 import flowTxt from '../../flow_Block_pattern.txt'
 
+import { drawRect,drawFillRect/*,drawFillRect2*/ } from '../DrawRectangle/Rectangle';
+import { drawCircle } from '../DrawCircle/Circle';
+import { drawLineBetween } from '../DrawLine/Line';
+
+import {writeText} from '../DrawText/TextDraw';
+
+
 import './BlockFlow.css'
 
 
@@ -73,14 +80,9 @@ function BlockFlow() {
         }
         reSetBlockString(temp);
         console.log(blockString.length);
-        //reSetBlockString(temp)
-        //console.log( blockString.length)
-
       });
 
   },[]);
-
-   console.log( blockString.length)
 
   // init  canvas context
   useEffect(() => {
@@ -99,10 +101,49 @@ function BlockFlow() {
     console.log("canvas "+ blockString.length);
     const r1Info = { x: 20, y: 30, w: 100, h: 50 };
     const r1Style = { borderColor: 'red', borderWidth: 10 };
-    writeText({ text: 'Clue Mediator!', x: 20, y: 30, fontSize:5 });
-    drawRect(r1Info, r1Style);
+    //drawRect(ctx,r1Info, r1Style);
+
+    drawCircle(ctx,100,100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    writeText(ctx,{ text: 'Node 1', x: 73, y: 90 },18,{color:'white'} );
+
+    drawCircle(ctx,100+(2*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    writeText(ctx,{ text: 'Node 2', x: 73+(73*2.7), y: 90 },18,{color:'white'} );
+
+    drawLineBetween(ctx,100+50,100,100+(2*100)-50,100,{strokeStyle:'#00000'});
+
+    drawCircle(ctx,100+(12*100),100+(1*200),50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    writeText(ctx,{ text: 'Node 15', x: 73+(73*6.04*2.7), y: 90+(200) },18,{color:'white'} );
+
+    drawCircle(ctx,100+(12*100),100+(2*200),50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    writeText(ctx,{ text: 'Node 16', x: 73+(73*6.04*2.7), y: 90+(2*200) },18,{color:'white'} );
+
+    drawLineBetween(ctx,100+(12*100)+50,100+(2*200),100+(16*100)-50,100+25,{strokeStyle:'#00000'});
+    drawLineBetween(ctx,100+(6*100),100+25,100+(12*100)-50,100+(1*200),{strokeStyle:'#00000'});
+    drawLineBetween(ctx,100+(8*100),100+25,100+(12*100)-50,100+(1*200),{strokeStyle:'#00000'});
 
 
+    drawCircle(ctx,100+(4*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    writeText(ctx,{ text: 'Node 3', x: 73+(73*2.04*2.7), y: 90 },18,{color:'white'} );
+
+    drawLineBetween(ctx,100+(2*100)+(1*50),100,100+(4*100)-(50),100,{strokeStyle:'#00000'});
+
+    drawCircle(ctx,100+(6*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    writeText(ctx,{ text: 'Node 4', x: 73+(73*3.04*2.7), y: 90 },18,{color:'white'} );
+
+    drawCircle(ctx,100+(8*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    writeText(ctx,{ text: 'Node 5', x: 73+(73*4.04*2.7), y: 90 },18,{color:'white'} );
+
+    drawCircle(ctx,100+(10*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    writeText(ctx,{ text: 'Node 6', x: 73+(73*5.04*2.7), y: 90 },18,{color:'white'} );
+
+    drawCircle(ctx,100+(12*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    writeText(ctx,{ text: 'Node 7', x: 73+(73*6.04*2.7), y: 90 },18,{color:'white'} );
+
+    drawCircle(ctx,100+(14*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    writeText(ctx,{ text: 'Node 89', x: 73+(73*7.08*2.7), y: 90 },18,{color:'white'} );
+
+    drawCircle(ctx,100+(16*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    writeText(ctx,{ text: 'Node 45', x: 73+(73*8.08*2.7), y: 90 },18,{color:'white'} );
 
     // const r2Info = { x: 100, y: 100, w: 80, h: 150 };
     // drawRect(r2Info);
@@ -118,50 +159,10 @@ function BlockFlow() {
   }
 
   // draw rectangle
-  const drawRect = (info, style = {}) => {
-    const { x, y, w, h } = info;
-    const { borderColor = 'black', borderWidth = 1 } = style;
-
-    ctx.beginPath();
-    ctx.strokeStyle = borderColor;
-    ctx.lineWidth = borderWidth;
-    ctx.rect(x, y, w, h);
-    ctx.stroke();
-  }
-  const writeText = (info,sizeofFont ,style = {}) => {
-      const { text, x, y } = info;
-      const { fontSize = sizeofFont, fontFamily = 'Arial', color = 'black', textAlign = 'left', textBaseline = 'top' } = style;
-     
-      ctx.beginPath();
-      ctx.font = fontSize + 'px ' + fontFamily;
-      ctx.textAlign = textAlign;
-      ctx.textBaseline = textBaseline;
-      ctx.fillStyle = color;
-      ctx.fillText(text, x, y);
-      ctx.stroke();
-    }
-
-  // draw rectangle with background
-  const drawFillRect = (info, style = {}) => {
-    const { x, y, w, h } = info;
-    const { backgroundColor = 'black' } = style;
-
-    ctx.beginPath();
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(x, y, w, h);
-  }
-  const drawFillRect2 = (info, style = {}) => {
-    const { x, y, w, h } = info;
-    const { backgroundColor = 'transparent' } = style;
-
-    ctx.beginPath();
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(x, y, w, h);
-  }
-
+ 
   return (
     <div className="App">
-      <h3>Draw a rectangle on Canvas - <a href="http://www.cluemediator.com" target="_blank" rel="noopener noreferrer">Clue Mediator</a></h3>
+      <h3>BlockFlow </h3>
       <canvas ref={canvas}></canvas>
     </div>
   );
