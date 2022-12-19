@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter,Route, Routes } from 'react-router-dom';
 import './App.css';
 
-import BlockFlow from './components/BlockFlow.js';
+import BlockFlow from './components/BlockFlow/BlockFlow.js';
 
 function App() {
   return (

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # SimPlot
 SimBlock visualize
 =======
