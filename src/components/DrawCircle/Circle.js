@@ -10,5 +10,6 @@ export const drawCircle = (context,centerX,centerY,radius,{insideColor='green'
     context.lineWidth = lineWidth;
     context.strokeStyle = strokeClr;
     context.stroke();
+   // context.strokeStyle='#000000';
 
 }

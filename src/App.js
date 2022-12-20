@@ -3,6 +3,7 @@ import { BrowserRouter,Route, Routes } from 'react-router-dom';
 import './App.css';
 
 import BlockFlow from './components/BlockFlow/BlockFlow.js';
+import ChainFlow from './components/ChainFlow/ChainFlow';
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
     
         <BrowserRouter>
             <Routes>
-                <Route path='/'  element={<BlockFlow/>} />
+                <Route path='/'  element={<ChainFlow/>} />
             </Routes>
         </BrowserRouter>
     </div>

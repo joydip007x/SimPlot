@@ -9,6 +9,7 @@
     ctx.lineWidth = borderWidth;
     ctx.rect(x, y, w, h);
     ctx.stroke();
+    ctx.strokeStyle='#000000';
   }
   
 
@@ -20,6 +21,8 @@
     ctx.beginPath();
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(x, y, w, h);
+    //ctx.strokeStyle='#000000';
+
   }
 
   // export const drawFillRect2 = (ctx,info, style = {}) => {

@@ -1,10 +1,9 @@
 import React, { useRef, useEffect,useState } from 'react'
-import flowTxt from '../../flow_Block_pattern.txt'
+import flowTxt from '../../patterns/flow_Block_pattern.txt'
 
 import { drawRect,drawFillRect/*,drawFillRect2*/ } from '../DrawRectangle/Rectangle';
 import { drawCircle } from '../DrawCircle/Circle';
 import { drawLineBetween } from '../DrawLine/Line';
-
 import {writeText} from '../DrawText/TextDraw';
 
 
@@ -21,8 +20,8 @@ function BlockFlow() {
   function reSetBlockString (arr){
     
     setblockString(arr);
-    console.log(blockString.length);
-    RectCanvas();
+    console.log("reSetBlockString :"+blockString.length);
+    RectCanvas(arr);
   }
   //const pat = RegExp(/(\w|"| |:|,|)*\}\}/g)
   //const pat = RegExp(/\{([a-zA-z0-9]|[^a-zA-z0-9])*(\w|"| |:|,|)*\}\}/g)
@@ -79,7 +78,7 @@ function BlockFlow() {
             /// console.log(s+"\n"+flowBlock.transmission_timestamp+"\n"+flowBlock.block_id);
         }
         reSetBlockString(temp);
-        console.log(blockString.length);
+        //console.log(blockString.length);
       });
 
   },[]);
@@ -96,55 +95,59 @@ function BlockFlow() {
   }, []);
 
 
-  function RectCanvas(){
+  function RectCanvas(blockArray){
 
-    console.log("canvas "+ blockString.length);
+    console.log("RectCanvas "+ blockString.length+ " : x "+blockArray.length);
     const r1Info = { x: 20, y: 30, w: 100, h: 50 };
     const r1Style = { borderColor: 'red', borderWidth: 10 };
     //drawRect(ctx,r1Info, r1Style);
 
     drawCircle(ctx,100,100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 1', x: 73, y: 90 },18,{color:'white'} );
+    writeText(ctx,{ text: 'Node 1', x: 100, y: 90 },18,{color:'white'} );
 
     drawCircle(ctx,100+(2*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 2', x: 73+(73*2.7), y: 90 },18,{color:'white'} );
+    writeText(ctx,{ text: 'Node 2', x: 100+(2*100), y: 90 },18,{color:'white'} );
 
-    drawLineBetween(ctx,100+50,100,100+(2*100)-50,100,{strokeStyle:'#00000'});
+    drawLineBetween(ctx,100+50,100,100+(2*100)-50,100,{strokeClr:'#00000'});
 
     drawCircle(ctx,100+(12*100),100+(1*200),50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 15', x: 73+(73*6.04*2.7), y: 90+(200) },18,{color:'white'} );
+    writeText(ctx,{ text: 'Node 15', x: 100+(12*100), y: 90+(200) },18,{color:'white'} );
 
     drawCircle(ctx,100+(12*100),100+(2*200),50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 16', x: 73+(73*6.04*2.7), y: 90+(2*200) },18,{color:'white'} );
+    writeText(ctx,{ text: 'Node 166', x: 100+(12*100), y: 90+(2*200) },18,{color:'white'} );
 
-    drawLineBetween(ctx,100+(12*100)+50,100+(2*200),100+(16*100)-50,100+25,{strokeStyle:'#00000'});
-    drawLineBetween(ctx,100+(6*100),100+25,100+(12*100)-50,100+(1*200),{strokeStyle:'#00000'});
-    drawLineBetween(ctx,100+(8*100),100+25,100+(12*100)-50,100+(1*200),{strokeStyle:'#00000'});
+    drawLineBetween(ctx,100+(12*100)+50,100+(2*200)-25,100+(16*100)-50,100+25,{strokeClr:'blue'});
+    drawLineBetween(ctx,100+(6*100),100+25,100+(12*100)-50,100+(1*200),{strokeClr:'#ff88ff'});
+    drawLineBetween(ctx,100+(8*100),100+25,100+(12*100)-50,100+(1*200),{strokeClr:'green'});
 
 
     drawCircle(ctx,100+(4*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 3', x: 73+(73*2.04*2.7), y: 90 },18,{color:'white'} );
+    writeText(ctx,{ text: 'Node 3', x: 100+(4*100), y: 90 },18,{color:'white'} );
 
-    drawLineBetween(ctx,100+(2*100)+(1*50),100,100+(4*100)-(50),100,{strokeStyle:'#00000'});
+    drawLineBetween(ctx,100+(2*100)+(1*50),100,100+(4*100)-(50),100,{strokeClr:'#ff0fff'});
 
-    drawCircle(ctx,100+(6*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 4', x: 73+(73*3.04*2.7), y: 90 },18,{color:'white'} );
+    drawCircle(ctx,100+(6*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
+    writeText(ctx,{ text: 'Node 4', x: 100+(6*100), y: 90 },18,{color:'white'} );
 
-    drawCircle(ctx,100+(8*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    drawCircle(ctx,100+(8*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
     writeText(ctx,{ text: 'Node 5', x: 73+(73*4.04*2.7), y: 90 },18,{color:'white'} );
 
-    drawCircle(ctx,100+(10*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    drawCircle(ctx,100+(10*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
     writeText(ctx,{ text: 'Node 6', x: 73+(73*5.04*2.7), y: 90 },18,{color:'white'} );
 
-    drawCircle(ctx,100+(12*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 7', x: 73+(73*6.04*2.7), y: 90 },18,{color:'white'} );
+    drawCircle(ctx,100+(12*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
+    writeText(ctx,{ text: 'Node 7', x: 100+(12*100), y: 90 },18,{color:'white'} );
 
     drawCircle(ctx,100+(14*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
     writeText(ctx,{ text: 'Node 89', x: 73+(73*7.08*2.7), y: 90 },18,{color:'white'} );
 
     drawCircle(ctx,100+(16*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 45', x: 73+(73*8.08*2.7), y: 90 },18,{color:'white'} );
+    writeText(ctx,{ text: 'Node 45', x: 73+(73*8.04*2.7), y: 90 },18,{color:'white'} );
 
+    drawCircle(ctx,100+(2*100),100+(6*100),50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
+    writeText(ctx,{ text: 'Node 999', x: 100+(2*100), y: 90+(6*100) },18,{color:'white'} );
+
+    drawLineBetween(ctx,100+(2*100)+50,100+(6*100)-25,100+(12*100)-50,100+25,{strokeClr:'#2d3436'});
     // const r2Info = { x: 100, y: 100, w: 80, h: 150 };
     // drawRect(r2Info);
 

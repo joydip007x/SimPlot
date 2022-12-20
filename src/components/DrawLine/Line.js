@@ -1,9 +1,11 @@
 
-export const drawLineBetween = (context,startX,startY,endX,endY,{strokeclr='#000000'})=>{
+export const drawLineBetween = (context,startX,startY,endX,endY,{strokeClr})=>{
 
     context.beginPath();
+    context.strokeStyle =strokeClr ;
+    //context.fillStyle =strokeclr;
     context.moveTo(startX, startY);
     context.lineTo(endX,endY);
-    context.strokeStyle =strokeclr ;
     context.stroke();
+    //context.strokeStyle='#000000';
 }

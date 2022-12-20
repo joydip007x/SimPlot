@@ -5,7 +5,7 @@ export const writeText = (ctx,info,sizeofFont ,style = {}) => {
       const { fontSize = sizeofFont, 
               fontFamily = 'Arial', 
               color = 'black', 
-              textAlign = 'left', 
+              textAlign = 'center', 
               textBaseline = 'top' } = style;
      
       ctx.beginPath();
@@ -15,4 +15,6 @@ export const writeText = (ctx,info,sizeofFont ,style = {}) => {
       ctx.fillStyle = color;
       ctx.fillText(text, x, y);
       ctx.stroke();
+      ctx.strokeStyle='#000000';
+
     }
