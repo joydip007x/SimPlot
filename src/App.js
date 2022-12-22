@@ -11,7 +11,8 @@ function App() {
     
         <BrowserRouter>
             <Routes>
-                <Route path='/'  element={<ChainFlow/>} />
+                <Route path='/'  element={<BlockFlow/>} />
+                <Route path='/1'  element={<ChainFlow/>} />
             </Routes>
         </BrowserRouter>
     </div>

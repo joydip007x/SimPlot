@@ -4,7 +4,7 @@ import flowTxt from '../../patterns/flow_Block_pattern.txt'
 import { drawRect,drawFillRect/*,drawFillRect2*/ } from '../DrawRectangle/Rectangle';
 import { drawCircle } from '../DrawCircle/Circle';
 import { drawLineBetween } from '../DrawLine/Line';
-import {writeText} from '../DrawText/TextDraw';
+import {writeText,drawLabel} from '../DrawText/TextDraw';
 
 
 import './BlockFlow.css'
@@ -135,9 +135,7 @@ function BlockFlow() {
     drawCircle(ctx,100+(10*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
     writeText(ctx,{ text: 'Node 6', x: 73+(73*5.04*2.7), y: 90 },18,{color:'white'} );
 
-    drawCircle(ctx,100+(12*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
-    writeText(ctx,{ text: 'Node 7', x: 100+(12*100), y: 90 },18,{color:'white'} );
-
+   
     drawCircle(ctx,100+(14*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
     writeText(ctx,{ text: 'Node 89', x: 73+(73*7.08*2.7), y: 90 },18,{color:'white'} );
 
@@ -146,6 +144,14 @@ function BlockFlow() {
 
     drawCircle(ctx,100+(2*100),100+(6*100),50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
     writeText(ctx,{ text: 'Node 999', x: 100+(2*100), y: 90+(6*100) },18,{color:'white'} );
+
+    drawCircle(ctx,100+(12*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
+    writeText(ctx,{ text: 'Node 7', x: 100+(12*100), y: 90 },18,{color:'white'} );
+
+    const a={x:100+(2*100),y:100+(6*100)};
+    const b={x:100+(12*100),y:100};
+    console.log("Draw label : "+a.x+a.y+b.x+b.y);
+    drawLabel(ctx,"Node Connections",b,a,'center',0);
 
     drawLineBetween(ctx,100+(2*100)+50,100+(6*100)-25,100+(12*100)-50,100+25,{strokeClr:'#2d3436'});
     // const r2Info = { x: 100, y: 100, w: 80, h: 150 };
