@@ -19,7 +19,11 @@ export const writeText = (ctx,info,sizeofFont ,style = {}) => {
 
 }
 
-export const  drawLabel=( ctx, text, p1, p2, alignment,padding )=>{
+function timeout(delay) {
+  return new Promise( res => setTimeout(res, delay) );
+}
+
+export const  drawLabel=async ( ctx, text, p1, p2, alignment,padding )=>{
   alignment = 'center';
   padding = 0;
 
@@ -40,8 +44,11 @@ export const  drawLabel=( ctx, text, p1, p2, alignment,padding )=>{
   ctx.textAlign = alignment;
   ctx.translate(15+(p1.x+p2.x)/2,-30+(p1.y+p2.y)/2);
   //ctx.rotate(Math.atan2(dy,dx));
-  ctx.rotate(-Math.PI/5.8);
+  
+  ctx.rotate(-Math.PI+(Math.atan2(p2.y - p1.y, p2.x - p1.x) )  );
+  
   ctx.fillStyle = 'black';
+  //await timeout(1000);
   ctx.fillText(text,0,-5);
   ctx.stroke();
   ctx.restore();

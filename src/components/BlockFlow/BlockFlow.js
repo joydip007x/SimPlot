@@ -16,6 +16,7 @@ function BlockFlow() {
   let ctx = null;
   
   const [blockString,setblockString]=useState([]);
+  let canvasObjAxisInfo=[];
 
   function reSetBlockString (arr){
     
@@ -87,74 +88,165 @@ function BlockFlow() {
   useEffect(() => {
     // dynamically assign the width and height to canvas
     const canvasEle = canvas.current;
-    canvasEle.width = window.innerWidth;
-    canvasEle.height = window.innerHeight;
+    var rect = canvasEle.getBoundingClientRect();
+
+    canvasEle.width = 2400*2;
+    canvasEle.height = 1600*2;
 
     // get context of the canvas
     ctx = canvasEle.getContext("2d");
   }, []);
 
+  const sleep = async (milliseconds) => {
+    await new Promise(resolve => {
+        return setTimeout(resolve, milliseconds)
+    });
+  };
 
-  function RectCanvas(blockArray){
+
+  async function RectCanvas(blockArray){
 
     console.log("RectCanvas "+ blockString.length+ " : x "+blockArray.length);
     const r1Info = { x: 20, y: 30, w: 100, h: 50 };
     const r1Style = { borderColor: 'red', borderWidth: 10 };
     //drawRect(ctx,r1Info, r1Style);
 
-    drawCircle(ctx,100,100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 1', x: 100, y: 90 },18,{color:'white'} );
+    let nx=100/1;
+    let p=0,ny=200/1,q=0;
+    let yc=20 , xc=2*yc;
+    let sx=900 ,sy=100,radius=25*2;
 
-    drawCircle(ctx,100+(2*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 2', x: 100+(2*100), y: 90 },18,{color:'white'} );
+    drawLineBetween(ctx,sx-radius*3,0,sx-radius*3,canvas.current.height,{strokeClr:'blue',lWidth:10});
+    writeText(ctx,{ text: 'Current BlockFlow', x:(sx-radius*3)/2, y:sy},68,{color:'#00a8ff'} );
 
-    drawLineBetween(ctx,100+50,100,100+(2*100)-50,100,{strokeClr:'#00000'});
+    for(let i=0 ; i<300; i=i+1,p=p+2){
 
-    drawCircle(ctx,100+(12*100),100+(1*200),50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 15', x: 100+(12*100), y: 90+(200) },18,{color:'white'} );
+      q=parseInt(i/yc);
+      p=p%xc;
+      drawCircle(ctx,sx+(p*nx),sy+(q*ny),radius,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+      writeText(ctx,{ text: 'Node '+(i+1), x:sx+(p*nx), y:90+(q*ny) },18,{color:'#00a8ff'} );
+      //if(i==20){await sleep(3000);}
 
-    drawCircle(ctx,100+(12*100),100+(2*200),50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 166', x: 100+(12*100), y: 90+(2*200) },18,{color:'white'} );
+      const saveAxisInfo= {
+           cirX:sx+(p*nx),
+           cirY:sy+(q*ny),
+           cirRadius:radius,
+           textX:sx+(p*nx),
+           textY:90+(q*ny),
+           cirYSteps:q,
+      }
+      canvasObjAxisInfo[i] = saveAxisInfo;
+    }
 
-    drawLineBetween(ctx,100+(12*100)+50,100+(2*200)-25,100+(16*100)-50,100+25,{strokeClr:'blue'});
-    drawLineBetween(ctx,100+(6*100),100+25,100+(12*100)-50,100+(1*200),{strokeClr:'#ff88ff'});
-    drawLineBetween(ctx,100+(8*100),100+25,100+(12*100)-50,100+(1*200),{strokeClr:'green'});
+    await sleep(2000);
 
+    let colorArray = ['aqua','orange','chartreuse','crimson',
+    'darkorange','dodgerblue','indigo', 'midnightblue','saddlebrown'];
 
-    drawCircle(ctx,100+(4*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 3', x: 100+(4*100), y: 90 },18,{color:'white'} );
+    let colorIndex=0,curBlockPropColor=colorArray[colorIndex];
+    let curBlockID=0;
 
-    drawLineBetween(ctx,100+(2*100)+(1*50),100,100+(4*100)-(50),100,{strokeClr:'#ff0fff'});
+    for(let i = 0; i <blockArray.length;i++) {
 
-    drawCircle(ctx,100+(6*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
-    writeText(ctx,{ text: 'Node 4', x: 100+(6*100), y: 90 },18,{color:'white'} );
+      if(i==50)break;
+      const canvasData ={
+        transmission_t:blockArray[i].transmission_timestamp,
+        reception_t:blockArray[i].reception_timestamp,
+        begin_node_id:blockArray[i].begin_node_id,
+        end_node_id:blockArray[i].end_node_id,
+        block_id:blockArray[i].block_id
+      }
 
-    drawCircle(ctx,100+(8*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
-    writeText(ctx,{ text: 'Node 5', x: 73+(73*4.04*2.7), y: 90 },18,{color:'white'} );
+      if(curBlockID!=canvasData.block_id){
+          curBlockID = canvasData.block_id;
+          colorIndex=(colorIndex+1)%9;
+          await sleep(3000);
+      }
 
-    drawCircle(ctx,100+(10*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
-    writeText(ctx,{ text: 'Node 6', x: 73+(73*5.04*2.7), y: 90 },18,{color:'white'} );
+     let obj1=canvasObjAxisInfo[canvasData.begin_node_id-1], 
+         obj2=canvasObjAxisInfo[canvasData.end_node_id-1],
+         rad=obj1.cirRadius;
+      
+      if(obj1.cirX>obj2.cirX || 
+         (obj1.cirX==obj2.cirX && obj1.cirY>obj2.cirY) ) 
+            [obj1, obj2]=[obj2, obj1];
+      
+      console.log("i = "+i+" from "+canvasData.begin_node_id+ " to "+canvasData.end_node_id);
+      let diffY=obj2.cirYSteps - obj1.cirYSteps;                                                      
+       drawLineBetween(ctx,obj1.cirX+rad,obj1.cirY+25,
+       obj2.cirX-rad,obj2.cirY-25,{strokeClr:colorArray[colorIndex]});
+
+    }
+
+    //drawCircle(ctx,100,100,25*1.5,{insideColor:'##00a8ff',strokeClr:'#2d3436'});
+
+     //writeText(ctx,{ text: 'yy'+parseInt(300/yc), x: 50, y: 90 },18,{color:'#00a8ff'} );
+
+    // drawCircle(ctx,100,100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    // writeText(ctx,{ text: 'Node 1', x: 100, y: 90 },18,{color:'white'} );
+
+    // drawCircle(ctx,100+(2*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    // writeText(ctx,{ text: 'Node 2', x: 100+(2*100), y: 90 },18,{color:'white'} );
+
+    // const p={x:100,y:100};
+    // const q={x:100+(2*100),y:100};
+    // //console.log("Draw label : "+p.x+p.y+b.x+b.y);
+    // drawLabel(ctx,"Happyyyyyy",p,q,'center',0);
+
+    // drawLineBetween(ctx,100+50,100,100+(2*100)-50,100,{strokeClr:'#00000'});
+
+    // drawCircle(ctx,100+(12*100),100+(1*200),50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    // writeText(ctx,{ text: 'Node 15', x: 100+(12*100), y: 90+(200) },18,{color:'white'} );
 
    
-    drawCircle(ctx,100+(14*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 89', x: 73+(73*7.08*2.7), y: 90 },18,{color:'white'} );
 
-    drawCircle(ctx,100+(16*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
-    writeText(ctx,{ text: 'Node 45', x: 73+(73*8.04*2.7), y: 90 },18,{color:'white'} );
+    // drawCircle(ctx,100+(12*100),100+(2*200),50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    // writeText(ctx,{ text: 'Node 166', x: 100+(12*100), y: 90+(2*200) },18,{color:'white'} );
 
-    drawCircle(ctx,100+(2*100),100+(6*100),50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
-    writeText(ctx,{ text: 'Node 999', x: 100+(2*100), y: 90+(6*100) },18,{color:'white'} );
+    // drawLineBetween(ctx,100+(12*100)+50,100+(2*200)-25,100+(16*100)-50,100+25,{strokeClr:'blue'});
+    // drawLineBetween(ctx,100+(6*100),100+25,100+(12*100)-50,100+(1*200),{strokeClr:'#ff88ff'});
+    // drawLineBetween(ctx,100+(8*100),100+25,100+(12*100)-50,100+(1*200),{strokeClr:'green'});
 
-    drawCircle(ctx,100+(12*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
-    writeText(ctx,{ text: 'Node 7', x: 100+(12*100), y: 90 },18,{color:'white'} );
 
-    const a={x:100+(2*100),y:100+(6*100)};
-    const b={x:100+(12*100),y:100};
-    console.log("Draw label : "+a.x+a.y+b.x+b.y);
-    drawLabel(ctx,"Node Connections",b,a,'center',0);
+    // drawCircle(ctx,100+(4*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    // writeText(ctx,{ text: 'Node 3', x: 100+(4*100), y: 90 },18,{color:'white'} );
 
-    drawLineBetween(ctx,100+(2*100)+50,100+(6*100)-25,100+(12*100)-50,100+25,{strokeClr:'#2d3436'});
-    // const r2Info = { x: 100, y: 100, w: 80, h: 150 };
+    // drawLineBetween(ctx,100+(2*100)+(1*50),100,100+(4*100)-(50),100,{strokeClr:'#ff0fff'});
+
+    // drawCircle(ctx,100+(6*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
+    // writeText(ctx,{ text: 'Node 4', x: 100+(6*100), y: 90 },18,{color:'white'} );
+
+    // drawCircle(ctx,100+(8*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
+    // writeText(ctx,{ text: 'Node 5', x: 73+(73*4.04*2.7), y: 90 },18,{color:'white'} );
+
+    // drawCircle(ctx,100+(10*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
+    // writeText(ctx,{ text: 'Node 6', x: 73+(73*5.04*2.7), y: 90 },18,{color:'white'} );
+
+   
+    // drawCircle(ctx,100+(14*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    // writeText(ctx,{ text: 'Node 89', x: 73+(73*7.08*2.7), y: 90 },18,{color:'white'} );
+
+    // drawCircle(ctx,100+(16*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
+    // writeText(ctx,{ text: 'Node 45', x: 73+(73*8.04*2.7), y: 90 },18,{color:'white'} );
+
+    // const z1={x:100+(16*100),y:100};
+    // const z2={x:100+(12*100),y:100+(2*200)};
+    // //console.log("Draw label : "+p.x+p.y+b.x+b.y);
+    // drawLabel(ctx,"XXYYZZAABB",z1,z2,'center',0);
+
+    // drawCircle(ctx,100+(2*100),100+(6*100),50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
+    // writeText(ctx,{ text: 'Node 999', x: 100+(2*100), y: 90+(6*100) },18,{color:'white'} );
+
+    // drawCircle(ctx,100+(12*100),100,50,{insideColor:'#2d3436',strokeClr:'#00a88f'});
+    // writeText(ctx,{ text: 'Node 7', x: 100+(12*100), y: 90 },18,{color:'white'} );
+
+    // const a={x:100+(2*100),y:100+(6*100)};
+    // const b={x:100+(12*100),y:100};
+    // console.log("Draw label : "+a.x+a.y+b.x+b.y);
+    // drawLabel(ctx,"Node Connections",b,a,'center',0);
+
+    // drawLineBetween(ctx,100+(2*100)+50,100+(6*100)-25,100+(12*100)-50,100+25,{strokeClr:'#2d3436'});
+    // // const r2Info = { x: 100, y: 100, w: 80, h: 150 };
     // drawRect(r2Info);
 
     // const r3Info = { x: 250, y: 80, w: 80, h: 120 };
