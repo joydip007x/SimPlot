@@ -4,17 +4,25 @@ import flowTxt from '../../patterns/flow_Block_pattern.txt'
 import { drawRect,drawFillRect/*,drawFillRect2*/ } from '../DrawRectangle/Rectangle';
 import { drawCircle } from '../DrawCircle/Circle';
 import { drawLineBetween } from '../DrawLine/Line';
-import {writeText,drawLabel} from '../DrawText/TextDraw';
+import {writeText,drawLabel,drawLabelBig} from '../DrawText/TextDraw';
 
 
 import './BlockFlow.css'
 
+// export  const rootBlocFlow = () =>{
 
+
+// }
 function BlockFlow() {
 
   const canvas = useRef();
   let ctx = null;
   
+  // const [stage, setStage] = useState({
+  //   scale: 1,
+  //   x: 0,
+  //   y: 0
+  // });
   const [blockString,setblockString]=useState([]);
   let canvasObjAxisInfo=[];
 
@@ -90,11 +98,20 @@ function BlockFlow() {
     const canvasEle = canvas.current;
     var rect = canvasEle.getBoundingClientRect();
 
-    canvasEle.width = 2400*2;
+    canvasEle.width = 2400*2;  ////// relation with scaling * num of nodes in canvas
     canvasEle.height = 1600*2;
 
     // get context of the canvas
     ctx = canvasEle.getContext("2d");
+    ///////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////
+     ///  SCALING for dev only 
+
+    ctx.scale(0.4,0.4);
+     ///////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////
   }, []);
 
   const sleep = async (milliseconds) => {
@@ -116,7 +133,7 @@ function BlockFlow() {
     let yc=20 , xc=2*yc;
     let sx=900 ,sy=100,radius=25*2;
 
-    drawLineBetween(ctx,sx-radius*3,0,sx-radius*3,canvas.current.height,{strokeClr:'blue',lWidth:10});
+    drawLineBetween(ctx,sx-radius*3,0,sx-radius*3,canvas.current.height,{strokeClr:'black',lWidth:10});
     writeText(ctx,{ text: 'Current BlockFlow', x:(sx-radius*3)/2, y:sy},68,{color:'#00a8ff'} );
 
     for(let i=0 ; i<300; i=i+1,p=p+2){
@@ -139,16 +156,16 @@ function BlockFlow() {
     }
 
     await sleep(2000);
+   
 
     let colorArray = ['aqua','orange','chartreuse','crimson',
     'darkorange','dodgerblue','indigo', 'midnightblue','saddlebrown'];
 
-    let colorIndex=0,curBlockPropColor=colorArray[colorIndex];
-    let curBlockID=0;
+    let colorIndex=-1,curBlockID=null;
 
     for(let i = 0; i <blockArray.length;i++) {
 
-      if(i==50)break;
+      if(i==500)break;
       const canvasData ={
         transmission_t:blockArray[i].transmission_timestamp,
         reception_t:blockArray[i].reception_timestamp,
@@ -159,8 +176,15 @@ function BlockFlow() {
 
       if(curBlockID!=canvasData.block_id){
           curBlockID = canvasData.block_id;
+
+          drawFillRect(ctx,{ x: (sx/2)-(radius), y: 7.4*sy, w: 90, h: 260 },
+          { borderColor: 'white', borderWidth: 1,backgroundColor: 'white' });
+
+          drawLabelBig(ctx,'BlockID '+curBlockID,
+          {x:(sx/2)-(radius*1.5),y:14*sy},{x:(sx/2)-(radius*1.5),y:4*sy})  
+
           colorIndex=(colorIndex+1)%9;
-          await sleep(3000);
+          await sleep(2000);
       }
 
      let obj1=canvasObjAxisInfo[canvasData.begin_node_id-1], 
@@ -171,11 +195,44 @@ function BlockFlow() {
          (obj1.cirX==obj2.cirX && obj1.cirY>obj2.cirY) ) 
             [obj1, obj2]=[obj2, obj1];
       
-      console.log("i = "+i+" from "+canvasData.begin_node_id+ " to "+canvasData.end_node_id);
-      let diffY=obj2.cirYSteps - obj1.cirYSteps;                                                      
-       drawLineBetween(ctx,obj1.cirX+rad,obj1.cirY+25,
-       obj2.cirX-rad,obj2.cirY-25,{strokeClr:colorArray[colorIndex]});
+      /////////////////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////////////////////
 
+      drawCircle(ctx,(sx/2)-(radius*1.5),4*sy,150,{insideColor:'#2d3436',strokeClr:'#00a8ff'}); 
+      drawCircle(ctx,(sx/2)-(radius*1.5),14*sy,150,{insideColor:'#2d3436',strokeClr:'#00a8ff'});     
+    
+      drawLineBetween(ctx,(sx/2)-(radius*1.5),4*sy+(radius*3),
+      (sx/2)-(radius*1.5),14*sy-(radius*3),{strokeClr:colorArray[colorIndex],lWidth:10})
+
+      writeText(ctx,{ text: 'Node '+canvasData.begin_node_id,
+               x:(sx/2)-(radius*1.5), y:4*sy-(radius/4)},48,{color:'#00a8ff'} );
+
+      writeText(ctx,{ text: 'Node '+canvasData.end_node_id,
+               x:(sx/2)-(radius*1.5), y:14*sy-(radius/4)},48,{color:'#00a8ff'} );  
+               
+      // writeText(ctx,{ text: 'Node '+canvasData.end_node_id,
+      //          x:(sx/2)-(radius*1.5), y:14*sy-(radius/4)},48,{color:'#00a8ff'} );  
+               
+     
+      
+      writeText(ctx,{ text: 'Transmission Timestamp\n'+canvasData.transmission_t,
+               x:(sx/2)-(radius*1.5), y:17*sy-(radius/4)},48,{color:'#00a8ff'} );  
+      
+       
+     
+       /////////////////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////////////////////
+      
+      console.log("i = "+i+" from "+canvasData.begin_node_id+ " to "+canvasData.end_node_id+" t = "+ canvasData.transmission_t);
+      let diffY=obj2.cirYSteps - obj1.cirYSteps;                                                      
+       drawLineBetween(ctx,obj1.cirX+rad,obj1.cirY-25,
+       obj2.cirX-rad,obj2.cirY+25,{strokeClr:colorArray[colorIndex],lWidth:3});
+
+      await sleep(500)
+      const recClr = { x: (sx/2)-(radius*12.5), y: 17*sy-(radius/4), w: 900, h: 45 };
+      const recClrStyle = { borderColor: 'white', borderWidth: 10,backgroundColor: 'white' };
+      drawFillRect(ctx,recClr, recClrStyle);
+      
     }
 
     //drawCircle(ctx,100,100,25*1.5,{insideColor:'##00a8ff',strokeClr:'#2d3436'});
