@@ -1,4 +1,6 @@
 import React, { useRef, useEffect,useState } from 'react'
+
+//FILE
 import flowTxt from '../../patterns/flow_Block_pattern.txt'
 
 import { drawRect,drawFillRect/*,drawFillRect2*/ } from '../DrawRectangle/Rectangle';
@@ -6,11 +8,11 @@ import { drawCircle } from '../DrawCircle/Circle';
 import { drawLineBetween } from '../DrawLine/Line';
 import {writeText,drawLabel,drawLabelBig} from '../DrawText/TextDraw';
 
+import Button from 'react-bootstrap/Button';
 
 import './BlockFlow.css'
 
 // export  const rootBlocFlow = () =>{
-
 
 // }
 function BlockFlow() {
@@ -24,6 +26,7 @@ function BlockFlow() {
   //   y: 0
   // });
   const [blockString,setblockString]=useState([]);
+  const [simSpeed,setsimSpeed] = useState(2000);
   let canvasObjAxisInfo=[];
 
   function reSetBlockString (arr){
@@ -123,9 +126,10 @@ function BlockFlow() {
 
   async function RectCanvas(blockArray){
 
+    blockArray.sort((a,b)=> a.transmission_timestamp>b.transmission_timestamp);
     console.log("RectCanvas "+ blockString.length+ " : x "+blockArray.length);
-    const r1Info = { x: 20, y: 30, w: 100, h: 50 };
-    const r1Style = { borderColor: 'red', borderWidth: 10 };
+    // const r1Info = { x: 20, y: 30, w: 100, h: 50 };
+    // const r1Style = { borderColor: 'red', borderWidth: 10 };
     //drawRect(ctx,r1Info, r1Style);
 
     let nx=100/1;
@@ -155,7 +159,7 @@ function BlockFlow() {
       canvasObjAxisInfo[i] = saveAxisInfo;
     }
 
-    await sleep(2000);
+    await sleep(simSpeed);
    
 
     let colorArray = ['aqua','orange','chartreuse','crimson',
@@ -165,7 +169,7 @@ function BlockFlow() {
 
     for(let i = 0; i <blockArray.length;i++) {
 
-      if(i==500)break;
+      if(i==50)break;
       const canvasData ={
         transmission_t:blockArray[i].transmission_timestamp,
         reception_t:blockArray[i].reception_timestamp,
@@ -175,16 +179,17 @@ function BlockFlow() {
       }
 
       if(curBlockID!=canvasData.block_id){
-          curBlockID = canvasData.block_id;
 
+          if(curBlockID!=null)
           drawFillRect(ctx,{ x: (sx/2)-(radius), y: 7.4*sy, w: 90, h: 260 },
-          { borderColor: 'white', borderWidth: 1,backgroundColor: 'white' });
+              { borderColor: 'white', borderWidth: 1,backgroundColor: 'white' });
 
+          curBlockID = canvasData.block_id;
           drawLabelBig(ctx,'BlockID '+curBlockID,
-          {x:(sx/2)-(radius*1.5),y:14*sy},{x:(sx/2)-(radius*1.5),y:4*sy})  
+              {x:(sx/2)-(radius*1.5),y:14*sy},{x:(sx/2)-(radius*1.5),y:4*sy})  
 
           colorIndex=(colorIndex+1)%9;
-          await sleep(2000);
+          await sleep(simSpeed*2);
       }
 
      let obj1=canvasObjAxisInfo[canvasData.begin_node_id-1], 
@@ -227,8 +232,9 @@ function BlockFlow() {
       let diffY=obj2.cirYSteps - obj1.cirYSteps;                                                      
        drawLineBetween(ctx,obj1.cirX+rad,obj1.cirY-25,
        obj2.cirX-rad,obj2.cirY+25,{strokeClr:colorArray[colorIndex],lWidth:3});
-
-      await sleep(500)
+      
+      console.log(" simSpeed "+ simSpeed);
+      await sleep(simSpeed)
       const recClr = { x: (sx/2)-(radius*12.5), y: 17*sy-(radius/4), w: 900, h: 45 };
       const recClrStyle = { borderColor: 'white', borderWidth: 10,backgroundColor: 'white' };
       drawFillRect(ctx,recClr, recClrStyle);
@@ -320,7 +326,11 @@ function BlockFlow() {
  
   return (
     <div className="App">
-      <h3>BlockFlow </h3>
+      {/* <h3>BlockFlow </h3> */}
+      <Button variant="dark" onClick={()=>setsimSpeed(500)}>2x </Button>
+      <Button variant="dark" onClick={()=>setsimSpeed(250)}>4x </Button>
+      <Button variant="dark" onClick={()=>setsimSpeed(100)}>8x </Button>
+      {  simSpeed}
       <canvas ref={canvas}></canvas>
     </div>
   );

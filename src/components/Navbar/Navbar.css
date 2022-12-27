@@ -1,0 +1,24 @@
+
+.navBar{
+
+    /* align-content: flex-start !important; */
+    padding-left: 1.5%;
+    font-size: 28px ;
+    font-weight: 900;
+    color: rgb(18, 175, 175);
+}
+
+.me-auto{
+
+    margin-left: -10%;
+    font-size: 17px ;
+    color: rgb(255, 255, 255);
+}
+
+.navBarPageName{
+     
+    margin-right: 46.5%;
+    margin-top: 0.4%;
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+}

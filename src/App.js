@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter,Route, Routes } from 'react-router-dom';
+import { BrowserRouter,Route, Routes,Navigate } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -14,8 +14,12 @@ function App() {
       <Navbar/>
         <BrowserRouter>
             <Routes>
-                <Route path='/'  element={<BlockFlow/>} />
-                <Route path='/1'  element={<ChainFlow/>} />
+              
+                <Route path="/" element={<Navigate replace to="/blockflow"/>} />
+
+
+                <Route path='/blockflow'  element={<BlockFlow/>} />
+                <Route path='/chainflow'  element={<ChainFlow/>} />
             </Routes>
         </BrowserRouter>
     </div>

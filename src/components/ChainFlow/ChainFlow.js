@@ -29,6 +29,8 @@ export default function ChainFlow() {
     const pat3_line = RegExp(/[\w\W}*[0-9][\n]/g) //Matches '\n' NEWLINE
     const pat4_orphan = RegExp(/Orphan/g)  //Check if Orphan
 
+    const pat5 = RegExp(/chainflow/g)  //Check if Orphan
+
     function parseString(regex, str,orphanCheck=0) {
         let test,res="";
       
@@ -118,7 +120,7 @@ export default function ChainFlow() {
 
     return (
       <div className="App">
-        <h3>Chain -- Flow </h3>
+        {/* <h3>Chain -- Flow </h3> */}
         <canvas ref={canvas}></canvas>
       </div>
     );
