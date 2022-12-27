@@ -1,5 +1,5 @@
-import React, { useRef, useEffect,useState } from 'react'
-
+import React, { useRef, useEffect/*,useState*/ } from 'react'
+import useState from 'react-usestateref'
 //FILE
 import flowTxt from '../../patterns/flow_Block_pattern.txt'
 
@@ -9,6 +9,7 @@ import { drawLineBetween } from '../DrawLine/Line';
 import {writeText,drawLabel,drawLabelBig} from '../DrawText/TextDraw';
 
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 
 import './BlockFlow.css'
 
@@ -26,7 +27,7 @@ function BlockFlow() {
   //   y: 0
   // });
   const [blockString,setblockString]=useState([]);
-  const [simSpeed,setsimSpeed] = useState(2000);
+  var  [simSpeed,setsimSpeed,simSpeedRef] = useState(1000);
   let canvasObjAxisInfo=[];
 
   function reSetBlockString (arr){
@@ -137,7 +138,7 @@ function BlockFlow() {
     let yc=20 , xc=2*yc;
     let sx=900 ,sy=100,radius=25*2;
 
-    drawLineBetween(ctx,sx-radius*3,0,sx-radius*3,canvas.current.height,{strokeClr:'black',lWidth:10});
+    drawLineBetween(ctx,sx-radius*3,-50,sx-radius*3,canvas.current.height,{strokeClr:'black',lWidth:10});
     writeText(ctx,{ text: 'Current BlockFlow', x:(sx-radius*3)/2, y:sy},68,{color:'#00a8ff'} );
 
     for(let i=0 ; i<300; i=i+1,p=p+2){
@@ -159,7 +160,7 @@ function BlockFlow() {
       canvasObjAxisInfo[i] = saveAxisInfo;
     }
 
-    await sleep(simSpeed);
+    await sleep(simSpeedRef.current);
    
 
     let colorArray = ['aqua','orange','chartreuse','crimson',
@@ -170,6 +171,15 @@ function BlockFlow() {
     for(let i = 0; i <blockArray.length;i++) {
 
       if(i==50)break;
+      if(i==20){
+
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        //ctx.clearRect(0, 0, 2400*2, 3200);
+        ctx.scale(1, 1);
+        ctx.restore();
+
+      }
       const canvasData ={
         transmission_t:blockArray[i].transmission_timestamp,
         reception_t:blockArray[i].reception_timestamp,
@@ -189,7 +199,7 @@ function BlockFlow() {
               {x:(sx/2)-(radius*1.5),y:14*sy},{x:(sx/2)-(radius*1.5),y:4*sy})  
 
           colorIndex=(colorIndex+1)%9;
-          await sleep(simSpeed*2);
+          await sleep(simSpeedRef.current*2);
       }
 
      let obj1=canvasObjAxisInfo[canvasData.begin_node_id-1], 
@@ -233,8 +243,8 @@ function BlockFlow() {
        drawLineBetween(ctx,obj1.cirX+rad,obj1.cirY-25,
        obj2.cirX-rad,obj2.cirY+25,{strokeClr:colorArray[colorIndex],lWidth:3});
       
-      console.log(" simSpeed "+ simSpeed);
-      await sleep(simSpeed)
+      console.log(" simSpeed "+ simSpeed +" X "+ simSpeedRef.current);
+      await sleep(simSpeedRef.current)
       const recClr = { x: (sx/2)-(radius*12.5), y: 17*sy-(radius/4), w: 900, h: 45 };
       const recClrStyle = { borderColor: 'white', borderWidth: 10,backgroundColor: 'white' };
       drawFillRect(ctx,recClr, recClrStyle);
@@ -327,10 +337,15 @@ function BlockFlow() {
   return (
     <div className="App">
       {/* <h3>BlockFlow </h3> */}
-      <Button variant="dark" onClick={()=>setsimSpeed(500)}>2x </Button>
-      <Button variant="dark" onClick={()=>setsimSpeed(250)}>4x </Button>
-      <Button variant="dark" onClick={()=>setsimSpeed(100)}>8x </Button>
-      {  simSpeed}
+
+      <Container  className='contSimSpeed'>
+            <p className='paraSimSpeed'> Simulation Speed : </p>
+            <Button className='btn' variant="dark" onClick={()=>setsimSpeed(1000) }>1x </Button>
+            <Button className='btn' variant="dark" onClick={()=>setsimSpeed(500) }>2x </Button>
+            <Button className='btn' variant="dark" onClick={()=>setsimSpeed(250) }>4x </Button>
+            <Button className='btn' variant="dark" onClick={()=>setsimSpeed(100) }>16x </Button>
+      {/* { simSpeed} */}
+      </Container>
       <canvas ref={canvas}></canvas>
     </div>
   );
