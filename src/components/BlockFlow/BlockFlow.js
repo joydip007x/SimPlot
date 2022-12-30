@@ -1,4 +1,6 @@
 import React, { useRef, useEffect/*,useState*/ } from 'react'
+import {useLocation} from 'react-router-dom';
+
 import useState from 'react-usestateref'
 //FILE
 import flowTxt from '../../patterns/flow_Block_pattern.txt'
@@ -20,15 +22,12 @@ function BlockFlow() {
 
   const canvas = useRef();
   let ctx = null;
-  
-  // const [stage, setStage] = useState({
-  //   scale: 1,
-  //   x: 0,
-  //   y: 0
-  // });
   const [blockString,setblockString]=useState([]);
   var  [simSpeed,setsimSpeed,simSpeedRef] = useState(1000);
   let canvasObjAxisInfo=[];
+
+  const location = useLocation();
+  const data = location.state?.data;
 
   function reSetBlockString (arr){
     
@@ -38,8 +37,10 @@ function BlockFlow() {
   }
   //const pat = RegExp(/(\w|"| |:|,|)*\}\}/g)
   //const pat = RegExp(/\{([a-zA-z0-9]|[^a-zA-z0-9])*(\w|"| |:|,|)*\}\}/g)
+  const pat_fileUseEnd = RegExp(/"end-node-id":[0-9]*,"block-id":[0-9]*\}\}/g)
+
   const pat = RegExp(/\}\}/g) // matches '}}' ending of each transmission
-  const pat2 = RegExp(/\{"kind":/g) // matches '{kind' begining of each transmission
+  const pat2 = RegExp(/\{"kind":"fl/g) // matches '{kind:Flowblovck' begining of each transmission
   const pat3_tt = RegExp(/(\w| |"|:|,|-)*transmission-timestamp":[0-9]*/g) 
   const pat4_rt = RegExp(/reception-timestamp":[0-9]*/g)
   const pat5_beginNid= RegExp(/"begin-node-id":[0-9]*/g)
@@ -60,21 +61,27 @@ function BlockFlow() {
   }
   //Use Effect to create formatted object
   useEffect(() => {
-    fetch(flowTxt)
-      .then(r => r.text())
-      .then(text => {
-
-        var index=0,match,index2=0;
+  
+    var reader = new FileReader();
+    reader.onload = (event) => {
+        let text=event.target.result;
+        var index=0,match,index2=0,match2;
         let arr1 = [],arr2=[],temp=[];
         //store ending index to scrap each line
-        while ((match = pat.exec(text)) != null) {
-          arr2[index]=match.index; index=index + 1;
+        while ((match = pat_fileUseEnd.exec(text)) != null) {
+          let posx=match.index, cnt=0;
+            while ((match2 = pat.exec(match.at(0))) != null) {
+              if(cnt==0){
+                  arr2[index]=match.index+30; index=index + 1;
+              }
+              cnt++;
+            }
         }
         //store begining index to scrap each line
         while ((match = pat2.exec(text)) != null) {
           arr1[index2]=match.index; index2=index2 + 1;
         }
-        //console.log(arr1[0]+ " : "+arr2[0]+"\n"+index+index2 +text.slice(arr1[0],arr2[0])+"}}" )
+        console.log(arr1[0]+ " : "+arr2[0]+"\n"+index+index2 +text.slice(arr1[0],arr2[0])+"}}" )
         index=0;
         for(var i=0 ; i<arr1.length; i++){
 
@@ -88,13 +95,22 @@ function BlockFlow() {
             }
             temp[index]=flowBlock;
             index=index+1;
-            /// console.log(s+"\n"+flowBlock.transmission_timestamp+"\n"+flowBlock.block_id);
+            console.log(text.slice(arr1[0],arr2[0])+"}}" )
+            console.log(s+"\n"+flowBlock.transmission_timestamp+"\n"
+            +"\n"+flowBlock.reception_timestamp+"\n"+flowBlock.end_node_id+"\n"+flowBlock.begin_node_id
+            +"\n"+flowBlock.block_id
+            );
         }
         reSetBlockString(temp);
         //console.log(blockString.length);
-      });
+    
+      console.log("FOund - "+data);
+  //reader.readAsText(data);
+  }
+  reader.readAsText(data);
 
-  },[]);
+},[]);
+
 
   // init  canvas context
   useEffect(() => {

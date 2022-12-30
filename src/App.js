@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter,Route, Routes,Navigate } from 'react-router-dom';
+import { BrowserRouter,Route, Routes,Navigate, useNavigate } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import BlockFlow from './components/BlockFlow/BlockFlow.js';
 import ChainFlow from './components/ChainFlow/ChainFlow';
 import Navbar from './components/Navbar/Navbar.js';
+import ConnectionTable from './components/ConnectionTable/ConnectionTable';
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
 
                 <Route path='/blockflow'  element={<BlockFlow/>} />
                 <Route path='/chainflow'  element={<ChainFlow/>} />
+                <Route path='/table'  element={<ConnectionTable/>} />
+
             </Routes>
         </BrowserRouter>
     </div>
