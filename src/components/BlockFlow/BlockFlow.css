@@ -1,5 +1,7 @@
 body{
-      margin: 30px;
+     margin: 30px;
+    background-repeat:no-repeat !important;
+
 } 
 canvas {
       width: 400px;

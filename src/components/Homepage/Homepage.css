@@ -1,0 +1,70 @@
+
+body{
+
+    
+    display: block;
+    background-image: url('/public/b.jpg');
+    height: 3200px !important;
+    object-fit: fill;
+    background-repeat:no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.fUpclass{
+
+    margin-top: 10%;
+    border:  10px ;
+    border-color: black;
+    display: none;
+}
+
+.parentContainer{
+    
+}
+#filePara{
+
+    margin-left: 8px;
+}
+.modal-label{
+    display: inline-block;
+    line-height: 2.2em;
+    float: middle;
+    padding: 0 0.62em;
+    width: 250px;
+    border: 1px solid #666;
+    border-radius: 0.25em;
+    background-image: linear-gradient( to bottom, #fff, #ccc );
+    box-shadow: inset 0 0 0.1em #fff, 0.2em 0.2em 0.2em rgba( 0, 0, 0, 0.3 );
+    font-family: arial, sans-serif;
+    font-size: 0.8em;
+ }
+.numOfNodesInput{
+
+    width: 250px;
+    display: inline-block;
+    line-height: 1.2em;
+    float: middle;
+    margin-top: 12px;
+    text-align: center;
+
+}
+ .fileUploadedContainer{
+     
+     display: flex;
+     margin-left: 36%;
+     
+     
+ }
+ .submitbtn{
+
+    display: flex;
+    /* position: relative; */
+    justify-content: right;
+    margin-left: 47.5%;
+    margin-top: 12px;
+ }
+ .pageContainer{
+
+    margin-top: 15%;
+ }

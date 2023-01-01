@@ -52,7 +52,7 @@ const ConnectionTable = () => {
             // index=0;
 
             //history.push("/about", );  
-            //navigate('/blockflow', { state: {data: text}})
+            navigate('/blockflow', { state: {data: selectedFile,num:300}})
            // window.location.replace('/blockflow')
           }
           reader.onerror = (event) => {
@@ -85,7 +85,7 @@ const ConnectionTable = () => {
       <div>
         <button onClick={handleSubmission}>Submit</button>
 
-        <Link to="/blockflow" state={{ data: selectedFile }} className="link">   blockflow</Link>
+        <Link to="/blockflow"  className="link">   blockflow</Link>
       </div>
     </div>)
 }

@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import BlockFlow from './components/BlockFlow/BlockFlow.js';
 import ChainFlow from './components/ChainFlow/ChainFlow';
 import Navbar from './components/Navbar/Navbar.js';
+import Homepage from './components/Homepage/Homepage.js';
 import ConnectionTable from './components/ConnectionTable/ConnectionTable';
 
 function App() {
@@ -16,9 +17,9 @@ function App() {
         <BrowserRouter>
             <Routes>
               
-                <Route path="/" element={<Navigate replace to="/blockflow"/>} />
+                <Route path="/" element={<Navigate replace to="/homepage"/>} />
 
-
+                <Route path='/homepage'  element={<Homepage/>} />
                 <Route path='/blockflow'  element={<BlockFlow/>} />
                 <Route path='/chainflow'  element={<ChainFlow/>} />
                 <Route path='/table'  element={<ConnectionTable/>} />

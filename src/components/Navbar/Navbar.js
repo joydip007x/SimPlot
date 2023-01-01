@@ -16,7 +16,7 @@ function ColorSchemesExample() {
   return (
     <>
       <Navbar  bg="dark" variant="dark">
-        <Navbar.Brand className='navBar' href="#home">Simplot...</Navbar.Brand>
+        <Navbar.Brand className='navBar' href="/homepage">Simplot...</Navbar.Brand>
         <Container  >
           <Nav className="me">
             <Nav.Link href="/blockflow">BlockFlow</Nav.Link>

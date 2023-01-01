@@ -28,7 +28,11 @@ function BlockFlow() {
 
   const location = useLocation();
   const data = location.state?.data;
+  const numOfNodes  = location.state?.num;
 
+ 
+  
+  //console.log(" OOOOOOOOOOOOO "+ num);
   function reSetBlockString (arr){
     
     setblockString(arr);
@@ -95,16 +99,16 @@ function BlockFlow() {
             }
             temp[index]=flowBlock;
             index=index+1;
-            console.log(text.slice(arr1[0],arr2[0])+"}}" )
-            console.log(s+"\n"+flowBlock.transmission_timestamp+"\n"
-            +"\n"+flowBlock.reception_timestamp+"\n"+flowBlock.end_node_id+"\n"+flowBlock.begin_node_id
-            +"\n"+flowBlock.block_id
-            );
+            // console.log(text.slice(arr1[0],arr2[0])+"}}" )
+            // console.log(s+"\n"+flowBlock.transmission_timestamp+"\n"
+            // +"\n"+flowBlock.reception_timestamp+"\n"+flowBlock.end_node_id+"\n"+flowBlock.begin_node_id
+            // +"\n"+flowBlock.block_id
+            // );
         }
         reSetBlockString(temp);
         //console.log(blockString.length);
     
-      console.log("FOund - "+data);
+      ///console.log("FOund - "+data);
   //reader.readAsText(data);
   }
   reader.readAsText(data);
@@ -157,7 +161,7 @@ function BlockFlow() {
     drawLineBetween(ctx,sx-radius*3,-50,sx-radius*3,canvas.current.height,{strokeClr:'black',lWidth:10});
     writeText(ctx,{ text: 'Current BlockFlow', x:(sx-radius*3)/2, y:sy},68,{color:'#00a8ff'} );
 
-    for(let i=0 ; i<300; i=i+1,p=p+2){
+    for(let i=0 ; i<numOfNodes; i=i+1,p=p+2){
 
       q=parseInt(i/yc);
       p=p%xc;
