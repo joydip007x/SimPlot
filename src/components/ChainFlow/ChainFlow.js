@@ -1,5 +1,8 @@
 import React, { useRef, useEffect,useState } from 'react'
-import blockTxt from '../../patterns/blockList_pattern.txt'
+import {useLocation} from 'react-router-dom';
+
+
+// import blockTxt from '../../patterns/blockList_pattern.txt'
 
 import { drawRect,drawFillRect/*,drawFillRect2*/ } from '../DrawRectangle/Rectangle';
 import { drawCircle } from '../DrawCircle/Circle';
@@ -16,6 +19,10 @@ export default function ChainFlow() {
     
     const [blockList,setblockList]=useState([]);
   
+    const location = useLocation();
+    const data = location.state?.data;
+
+    console.log(" found CF " + data);
     function reSetblockList (arr){
       
       setblockList(arr);
@@ -49,10 +56,12 @@ export default function ChainFlow() {
     }
     //create formatted object from parsing string
     useEffect(() => {
-      fetch(blockTxt)
-        .then(r => r.text())
-        .then(text => {
+      
+      var reader = new FileReader();
+      reader.onload = (event) => {
 
+          let text=event.target.result;
+          console.log(text)
           var index=0,match,index2=0;
           let arr1 = [],arr2=[],temp=[];
           //store ending index to scrap each line
@@ -81,7 +90,8 @@ export default function ChainFlow() {
           }
           reSetblockList(temp);
           //console.log(blockList.length);
-        });
+        };
+      reader.readAsText(data);
   
     },[]);
   

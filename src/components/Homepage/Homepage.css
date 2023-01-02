@@ -1,16 +1,17 @@
 
 body{
-
-    
     display: block;
     background-image: url('/public/b.jpg');
-    height: 3200px !important;
-    object-fit: fill;
+    height: auto;
+    object-fit: contain;
     background-repeat:no-repeat;
     background-size: cover;
-    background-position: center;
+    background-position: top;
 }
+ .pageContainer{
 
+    margin-top: 15%;
+ }
 .fUpclass{
 
     margin-top: 10%;
@@ -36,24 +37,63 @@ body{
     border-radius: 0.25em;
     background-image: linear-gradient( to bottom, #fff, #ccc );
     box-shadow: inset 0 0 0.1em #fff, 0.2em 0.2em 0.2em rgba( 0, 0, 0, 0.3 );
-    font-family: arial, sans-serif;
-    font-size: 0.8em;
+    font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    font-weight: 500;
+    font-size: 1.1em;
  }
+
+ /* .homepage-dropdown{
+
+    margin-top: 12px ;
+    display: block;
+    text-align: center;
+    font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    font-weight: 500;
+    font-size: 0.8em;
+    
+ } */
+.dropdownClass{
+
+    text-align: center;
+    margin-top: 14px;
+    width: 250px !important;
+    margin-left: 1.5%;
+   
+    box-shadow: inset 0 0 0.1em #fff, 0.2em 0.2em 0.2em rgba( 0, 0, 0, 0.3 );
+    font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    font-weight: 500;
+    
+}
+
+.form-control::placeholder { 
+    color: rgb(48, 46, 46);
+    opacity: 1; 
+}
 .numOfNodesInput{
 
     width: 250px;
     display: inline-block;
-    line-height: 1.2em;
+    line-height: 1.7em;
     float: middle;
     margin-top: 12px;
     text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+    font-size: 1.0em;
+   
+    border: .5px solid rgb(0, 0, 0);
+    border-radius: 0.25em;
+    background-image: linear-gradient( to bottom, #fff, #ccc );
+    box-shadow: inset 0 0 0.1em #fff, 0.2em 0.2em 0.2em rgba( 0, 0, 0, 0.3 );
 
+}
+[contenteditable="true"]:focus {
+    outline: none;
 }
  .fileUploadedContainer{
      
      display: flex;
-     margin-left: 36%;
-     
+     margin-left: 36.5%;
      
  }
  .submitbtn{
@@ -62,9 +102,28 @@ body{
     /* position: relative; */
     justify-content: right;
     margin-left: 47.5%;
-    margin-top: 12px;
+    margin-top: 32px;
  }
- .pageContainer{
 
-    margin-top: 15%;
+ .footerHomepage{
+
+    position: fixed;
+    text-align: left;
+    bottom: 0;
+    left: 0;
+    padding-left: 1%;
+    padding-bottom: 1%;
+ }
+
+ #NBfooter{
+    margin: 0;
+ }
+ .btnblock{
+    
+    display: inline;
+    padding-left: 0.8%;
+    padding-top: .5%;
+    position:  absolute;
+    font-size: 23px !important;
+    color: #666;
  }

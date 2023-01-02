@@ -3,7 +3,7 @@ import {useLocation} from 'react-router-dom';
 
 import useState from 'react-usestateref'
 //FILE
-import flowTxt from '../../patterns/flow_Block_pattern.txt'
+//import flowTxt from '../../patterns/flow_Block_pattern.txt'
 
 import { drawRect,drawFillRect/*,drawFillRect2*/ } from '../DrawRectangle/Rectangle';
 import { drawCircle } from '../DrawCircle/Circle';
