@@ -16,10 +16,12 @@
   // draw rectangle with background
   export  const drawFillRect = (ctx,info, style = {}) => {
     const { x, y, w, h } = info;
-    const { backgroundColor = 'black' } = style;
+    const { backgroundColor = 'black',borderColor='black',borderWidth=5 } = style;
 
     ctx.beginPath();
     ctx.fillStyle = backgroundColor;
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = borderWidth;
     ctx.fillRect(x, y, w, h);
     //ctx.strokeStyle='#000000';
 

@@ -11,6 +11,7 @@ export const writeText = (ctx,info,sizeofFont ,style = {}) => {
       ctx.beginPath();
       ctx.font = fontSize + 'px ' + fontFamily;
       ctx.textAlign = textAlign;
+      ctx.fillStyle ='blue';
       ctx.textBaseline = textBaseline;
       ctx.fillStyle = color;
       ctx.fillText(text, x, y);

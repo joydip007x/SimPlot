@@ -7,7 +7,7 @@ import useState from 'react-usestateref'
 
 import { drawRect,drawFillRect/*,drawFillRect2*/ } from '../DrawRectangle/Rectangle';
 import { drawCircle } from '../DrawCircle/Circle';
-import { drawLineBetween } from '../DrawLine/Line';
+import { drawLineBetween,drawArrow } from '../DrawLine/Line';
 import {writeText,drawLabel,drawLabelBig} from '../DrawText/TextDraw';
 
 import Button from 'react-bootstrap/Button';
@@ -236,8 +236,12 @@ function BlockFlow() {
       drawCircle(ctx,(sx/2)-(radius*1.5),4*sy,150,{insideColor:'#2d3436',strokeClr:'#00a8ff'}); 
       drawCircle(ctx,(sx/2)-(radius*1.5),14*sy,150,{insideColor:'#2d3436',strokeClr:'#00a8ff'});     
     
-      drawLineBetween(ctx,(sx/2)-(radius*1.5),4*sy+(radius*3),
-      (sx/2)-(radius*1.5),14*sy-(radius*3),{strokeClr:colorArray[colorIndex],lWidth:10})
+      // drawLineBetween(ctx,(sx/2)-(radius*1.5),4*sy+(radius*3),
+      // (sx/2)-(radius*1.5),14*sy-(radius*3),{strokeClr:colorArray[colorIndex],lWidth:10})
+
+      drawArrow(ctx,(sx/2)-(radius*1.5),4*sy+(radius*3),
+      (sx/2)-(radius*1.5),14*sy-(radius*4),15,colorArray[colorIndex]);
+
 
       writeText(ctx,{ text: 'Node '+canvasData.begin_node_id,
                x:(sx/2)-(radius*1.5), y:4*sy-(radius/4)},48,{color:'#00a8ff'} );
@@ -260,9 +264,12 @@ function BlockFlow() {
       
       console.log("i = "+i+" from "+canvasData.begin_node_id+ " to "+canvasData.end_node_id+" t = "+ canvasData.transmission_t);
       let diffY=obj2.cirYSteps - obj1.cirYSteps;                                                      
-       drawLineBetween(ctx,obj1.cirX+rad,obj1.cirY-25,
-       obj2.cirX-rad,obj2.cirY+25,{strokeClr:colorArray[colorIndex],lWidth:3});
+      //  drawLineBetween(ctx,obj1.cirX+rad,obj1.cirY-25,
+      //  obj2.cirX-rad,obj2.cirY+25,{strokeClr:colorArray[colorIndex],lWidth:3});
       
+       drawArrow(ctx,obj1.cirX+rad,obj1.cirY-25,
+        obj2.cirX-rad,obj2.cirY+25,6,colorArray[colorIndex]);
+       
       console.log(" simSpeed "+ simSpeed +" X "+ simSpeedRef.current);
       await sleep(simSpeedRef.current)
       const recClr = { x: (sx/2)-(radius*12.5), y: 17*sy-(radius/4), w: 900, h: 45 };

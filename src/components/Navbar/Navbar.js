@@ -15,7 +15,7 @@ function ColorSchemesExample() {
 
   return (
     <>
-      <Navbar  bg="dark" variant="dark">
+      <Navbar className='navbarCls'bg="dark" variant="dark">
         <Navbar.Brand className='navBar' href="/homepage">Simplot...</Navbar.Brand>
         <Container  >
           <Nav className="me">

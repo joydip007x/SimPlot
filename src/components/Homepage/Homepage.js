@@ -21,6 +21,9 @@ const Homepage = () => {
     let whitespace ="  ";
     const navigate = useNavigate();
 
+    useEffect(()=>{
+        window.localStorage.setItem('files',selectedFile);
+    },[selectedFile]) 
     const changeHandler = (event) => {
         setSelectedFile(event.target.files[0]);
         setIsFilePicked(true);
