@@ -11,7 +11,7 @@ export const drawLineBetween = (context,startX,startY,endX,endY,{strokeClr,lWidt
     //context.strokeStyle='#000000';
 }
 
-export const drawArrow=(ctx, fromx, fromy, tox, toy, arrowWidth, color)=>{
+export const drawArrow=(ctx, fromx, fromy, tox, toy, arrowWidth, color,secondClr='grey')=>{
     var headlen = 10;
     var angle = Math.atan2(toy-fromy,tox-fromx);
  
@@ -25,7 +25,7 @@ export const drawArrow=(ctx, fromx, fromy, tox, toy, arrowWidth, color)=>{
     ctx.lineWidth = arrowWidth;
     ctx.stroke();
  
-    ctx.strokeStyle = 'grey';
+    ctx.strokeStyle = secondClr;
     ctx.beginPath();
     ctx.moveTo(tox, toy);
     
@@ -43,3 +43,4 @@ export const drawArrow=(ctx, fromx, fromy, tox, toy, arrowWidth, color)=>{
     ctx.stroke();
     ctx.restore();
 }
+

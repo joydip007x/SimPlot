@@ -132,7 +132,7 @@ function BlockFlow() {
     ///////////////////////////////////////////////////////////////////////////////////
      ///  SCALING for dev only 
 
-    ctx.scale(0.4,0.4);
+    ctx.scale(0.5,0.5);
      ///////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////
@@ -268,7 +268,7 @@ function BlockFlow() {
       //  obj2.cirX-rad,obj2.cirY+25,{strokeClr:colorArray[colorIndex],lWidth:3});
       
        drawArrow(ctx,obj1.cirX+rad,obj1.cirY-25,
-        obj2.cirX-rad,obj2.cirY+25,6,colorArray[colorIndex]);
+        obj2.cirX-rad,obj2.cirY+25,4,colorArray[colorIndex]);
        
       console.log(" simSpeed "+ simSpeed +" X "+ simSpeedRef.current);
       await sleep(simSpeedRef.current)

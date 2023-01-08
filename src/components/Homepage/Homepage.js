@@ -59,7 +59,7 @@ const Homepage = () => {
       
         <div  className="pageContainer">
          {/* <div>HOMEPAGE</div> */}
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
         <div>
         <input type="file" className="fUpclass" id="files"
          name="file"  onChange={changeHandler} />
@@ -87,7 +87,7 @@ const Homepage = () => {
           {/* <Button className='btnblock'>A</Button> */}
           
           {
-          isFilePicked? <i class="far fa-window-close btnblock" onClick={ resetFile }></i>
+          isFilePicked? <i className="far fa-window-close btnblock" onClick={ resetFile }></i>
           : <div></div>
           
           }
