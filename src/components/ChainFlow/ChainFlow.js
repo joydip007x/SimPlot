@@ -1,6 +1,7 @@
 import React, { useRef, useEffect,useState } from 'react'
 import {useLocation} from 'react-router-dom';
 
+import Navbar from '../Navbar/Navbar.js'
 
 // import blockTxt from '../../patterns/blockList_pattern.txt'
 
@@ -32,7 +33,7 @@ export default function ChainFlow() {
 
    // const pat = RegExp(/OnChain : [0-9]*(\w| |.|:)*/g) //Dumped
     const pat = RegExp(/(OnChain|Orphan) : [0-9]*/g) // matches 'OnCHain' Starting of each line processing
-    const pat2 = RegExp(/Minter [0-9]*/g) // matches 'Minter :' 
+    const pat2 = RegExp(/Min([a-z]|:| )*[0-9]*/g) // matches 'Minter :' 
     const pat3_line = RegExp(/[\w\W}*[0-9][\n]/g) //Matches '\n' NEWLINE
     const pat4_orphan = RegExp(/Orphan/g)  //Check if Orphan
 
@@ -120,7 +121,7 @@ export default function ChainFlow() {
 
       console.log("RectCanvas "+ blockList.length+ " : x "+blockArray.length);
 
-      let sx=(ctxwidth-50)/2,sy=30,tmpX=200;
+      let sx=(ctxwidth-75)/2,sy=30,tmpX=200;
       let recW=150,recH=70, stageCnt=0;
 
       for(let i=0; i< blockArray.length ; i++ ){
@@ -132,8 +133,31 @@ export default function ChainFlow() {
            let j=i,sideVal=0,sideDir;
            for( ;j< blockArray.length;j++,sideVal++){
               
-              if(blockArray[j].OnChain ){ i=j-1; break;}
-              //if( j-i>5 )continue;
+              if(blockArray[j].OnChain ){ i=j-1; j=0; break;}
+              if( j-i>5 ){
+                
+                drawFillRect(ctx,{ x: sx+(-1*200*Math.max(1,Math.floor((j-i)/2))), y: sy+((stageCnt-1)*120), w: recW/1.5, h: recH },
+                            { backgroundColor:'#afb3b0',borderColor: 'black', borderWidth: 5 });
+                drawFillRect(ctx,{ x: sx+(1*200*Math.max(1,Math.floor((j-i)/2))), y: sy+((stageCnt-1)*120), w: recW/1.5, h: recH },
+                            { backgroundColor:'#afb3b0',borderColor: 'black', borderWidth: 5 });
+
+                writeText(ctx,{ text: 'More Orphans', 
+                    x:sx+((recW/1.5)/2)+(1*200*Math.max(1,Math.floor((j-i)/2))), 
+                    y:sy+(recH/2.2)+((stageCnt-1)*120) },15,{color:'black'} );
+                writeText(ctx,{ text: 'More Orphans', 
+                   x:sx+((recW/1.5)/2)+(-1*200*Math.max(1,Math.floor((j-i)/2))), 
+                   y:sy+(recH/2.2)+((stageCnt-1)*120) },15,{color:'black'} );
+
+                drawArrow(ctx, sx+(recW/2),sy+((stageCnt-2)*120)+recH-3,
+                  sx+(-1*200*Math.max(1,Math.floor((j-i)/2)))+60,
+                  sy+((stageCnt-1)*120)-(recH/6),2,'#545454','ash');
+
+                  drawArrow(ctx, sx+(recW/2),sy+((stageCnt-2)*120)+recH-3,
+                  sx+(1*200*Math.max(1,Math.floor((j-i)/2)))+60,
+                  sy+((stageCnt-1)*120)-(recH/6),2,'#545454','ash');
+
+                break;
+              }
               (sideVal%2)? sideDir=1 : sideDir=-1;
               const rInfo = { x: sx+(sideDir*200*Math.max(1,Math.floor((j-i)/2))), y: sy+((stageCnt-1)*120), w: recW, h: recH };
               const rStyle = { backgroundColor:'#afb3b0',borderColor: 'black', borderWidth: 5 };
@@ -205,6 +229,7 @@ export default function ChainFlow() {
 
     return (
       <div className="App">
+        <Navbar pageName='ChainFlow'/>
         {/* <h3>Chain -- Flow </h3> */}
         <canvas ref={canvas}></canvas>
       </div>

@@ -12,6 +12,7 @@ import {writeText,drawLabel,drawLabelBig} from '../DrawText/TextDraw';
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import Navbar from '../Navbar/Navbar.js'
 
 import './BlockFlow.css'
 
@@ -132,7 +133,7 @@ function BlockFlow() {
     ///////////////////////////////////////////////////////////////////////////////////
      ///  SCALING for dev only 
 
-    ctx.scale(0.5,0.5);
+    ctx.scale(0.460,0.460);
      ///////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////
@@ -147,7 +148,7 @@ function BlockFlow() {
 
   async function RectCanvas(blockArray){
 
-    blockArray.sort((a,b)=> a.transmission_timestamp>b.transmission_timestamp);
+    blockArray.sort((a,b)=> a.block_id>b.block_id);
     console.log("RectCanvas "+ blockString.length+ " : x "+blockArray.length);
     // const r1Info = { x: 20, y: 30, w: 100, h: 50 };
     // const r1Style = { borderColor: 'red', borderWidth: 10 };
@@ -190,16 +191,16 @@ function BlockFlow() {
 
     for(let i = 0; i <blockArray.length;i++) {
 
-      if(i==50)break;
-      if(i==20){
+      //if(i==50)break;
+      // if(i==20){
 
-        ctx.save();
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        //ctx.clearRect(0, 0, 2400*2, 3200);
-        ctx.scale(1, 1);
-        ctx.restore();
+      //   ctx.save();
+      //   ctx.setTransform(1, 0, 0, 1, 0, 0);
+      //   //ctx.clearRect(0, 0, 2400*2, 3200);
+      //   ctx.scale(1, 1);
+      //   ctx.restore();
 
-      }
+      // }
       const canvasData ={
         transmission_t:blockArray[i].transmission_timestamp,
         reception_t:blockArray[i].reception_timestamp,
@@ -211,7 +212,7 @@ function BlockFlow() {
       if(curBlockID!=canvasData.block_id){
 
           if(curBlockID!=null)
-          drawFillRect(ctx,{ x: (sx/2)-(radius), y: 7.4*sy, w: 90, h: 260 },
+          drawFillRect(ctx,{ x: (sx/2)-(radius), y: 7.0*sy, w: 90, h: 360 },
               { borderColor: 'white', borderWidth: 1,backgroundColor: 'white' });
 
           curBlockID = canvasData.block_id;
@@ -254,7 +255,7 @@ function BlockFlow() {
                
      
       
-      writeText(ctx,{ text: 'Transmission Timestamp\n'+canvasData.transmission_t,
+      writeText(ctx,{ text: 'Timestamp\n'+canvasData.transmission_t,
                x:(sx/2)-(radius*1.5), y:17*sy-(radius/4)},48,{color:'#00a8ff'} );  
       
        
@@ -364,13 +365,15 @@ function BlockFlow() {
   return (
     <div className="App">
       {/* <h3>BlockFlow </h3> */}
-
+      <Navbar pageName='BlockFlow'/>
       <Container  className='contSimSpeed'>
             <p className='paraSimSpeed'> Simulation Speed : </p>
             <Button className='btn' variant="dark" onClick={()=>setsimSpeed(1000) }>1x </Button>
             <Button className='btn' variant="dark" onClick={()=>setsimSpeed(500) }>2x </Button>
             <Button className='btn' variant="dark" onClick={()=>setsimSpeed(250) }>4x </Button>
             <Button className='btn' variant="dark" onClick={()=>setsimSpeed(100) }>16x </Button>
+            <Button className='btn' variant="dark" onClick={()=>setsimSpeed(0) }>Inf </Button>
+
       {/* { simSpeed} */}
       </Container>
       <canvas ref={canvas}></canvas>

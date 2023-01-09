@@ -1,6 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react'
 import {useNavigate ,Link} from 'react-router-dom';
 
+import Navbar from '../Navbar/Navbar.js'
+
+
 const ConnectionTable = () => {
 
   const [selectedFile, setSelectedFile] = useState();
@@ -64,7 +67,9 @@ const ConnectionTable = () => {
   
   return (
     <div>
+     <Navbar pageName='ConnectionTable'/>
      <div>ConnectionTable</div>
+
     <input type="file" name="file" onChange={changeHandler} />
 
     {

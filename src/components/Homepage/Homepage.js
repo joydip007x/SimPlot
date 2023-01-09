@@ -49,7 +49,7 @@ const Homepage = () => {
       if(type=='BlockFlow')
         navigate('/blockflow', { /*replace: true ,*/state: {data: selectedFile,num:numOfNodes}})
       else if(type=='ChainFlow')
-        navigate('/chainflow', { /*replace: true ,*/state: {data: selectedFile}})
+        navigate('/chainflow', { /*replace: false ,*/state: {data: selectedFile}})
       else if(type=='Connection-Table')
         navigate('/table', { /*replace: true ,*/state: {data: selectedFile,num:numOfNodes}})
            

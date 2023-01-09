@@ -10,10 +10,13 @@ import Homepage from './components/Homepage/Homepage.js';
 import ConnectionTable from './components/ConnectionTable/ConnectionTable';
 
 function App() {
+
+
+ 
   return (
     <div className="App">
       
-      <Navbar/>
+      {/* <Navbar /> */}
         <BrowserRouter>
             <Routes>
               
