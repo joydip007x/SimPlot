@@ -23,8 +23,11 @@ function BlockFlow() {
 
   const canvas = useRef();
   let ctx = null;
+ 
   const [blockString,setblockString]=useState([]);
   var  [simSpeed,setsimSpeed,simSpeedRef] = useState(1000);
+  var  [btnActive,setbtnActive,btnActiveRef] = useState(1);
+
   let canvasObjAxisInfo=[];
 
   const location = useLocation();
@@ -184,7 +187,7 @@ function BlockFlow() {
     await sleep(simSpeedRef.current);
    
 
-    let colorArray = ['aqua','orange','chartreuse','crimson',
+    let colorArray = ['#00a8ff',/*'aqua',*/'orange','chartreuse','crimson',
     'darkorange','dodgerblue','indigo', 'midnightblue','saddlebrown'];
 
     let colorIndex=-1,curBlockID=null;
@@ -358,6 +361,7 @@ function BlockFlow() {
 
     // ctx.clearRect(250, 80, 80, 120);
     //drawFillRect2(r3Info, { backgroundColor: 'green' });
+    
   }
 
   // draw rectangle
@@ -368,11 +372,16 @@ function BlockFlow() {
       <Navbar pageName='BlockFlow'/>
       <Container  className='contSimSpeed'>
             <p className='paraSimSpeed'> Simulation Speed : </p>
-            <Button className='btn' variant="dark" onClick={()=>setsimSpeed(1000) }>1x </Button>
-            <Button className='btn' variant="dark" onClick={()=>setsimSpeed(500) }>2x </Button>
-            <Button className='btn' variant="dark" onClick={()=>setsimSpeed(250) }>4x </Button>
-            <Button className='btn' variant="dark" onClick={()=>setsimSpeed(100) }>16x </Button>
-            <Button className='btn' variant="dark" onClick={()=>setsimSpeed(0) }>Inf </Button>
+            <Button className='btn' active={(btnActive==1)} variant="dark" 
+                    onClick={()=>{setsimSpeed(1000); setbtnActive(1)}}>1x </Button>
+            <Button className='btn' active={(btnActive==2)}variant="dark" 
+                    onClick={()=>{setsimSpeed(500) ; setbtnActive(2)}}>2x </Button>
+            <Button className='btn' active={(btnActive==3)}variant="dark" 
+                    onClick={()=>{setsimSpeed(250) ; setbtnActive(3)}}>4x </Button>
+            <Button className='btn' active={(btnActive==4)}variant="dark" 
+                    onClick={()=>{setsimSpeed(100) ; setbtnActive(4)}}>16x </Button>
+            <Button className='btn' active={(btnActive==5)}variant="dark"
+                    onClick={()=>{setsimSpeed(0)   ; setbtnActive(5)}}>Inf </Button>
 
       {/* { simSpeed} */}
       </Container>

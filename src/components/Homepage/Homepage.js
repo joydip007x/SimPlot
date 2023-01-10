@@ -8,6 +8,8 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
+import Navbar from '../Navbar/Navbar.js'
+
 // import Background from '../A.png'
 import './Homepage.css'
 
@@ -56,8 +58,18 @@ const Homepage = () => {
     }
     return (
         
-      
+       <div>
+        
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <h3 class="animate-charcter"> Simplot</h3>
+              </div>
+            </div>
+          </div>
+
         <div  className="pageContainer">
+         
          {/* <div>HOMEPAGE</div> */}
          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
         <div>
@@ -144,6 +156,7 @@ const Homepage = () => {
               <p id='NBfooter'><b>4.</b> Simblock generates "output.json" & "blockList" in - <i>simblock/simulator/src/dist/output</i> folder</p>
           </div>
 
+         </div>
         </div>)
 }
 
