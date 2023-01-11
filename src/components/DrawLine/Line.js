@@ -14,7 +14,8 @@ export const drawLineBetween = (context,startX,startY,endX,endY,{strokeClr,lWidt
 export const drawArrow=(ctx, fromx, fromy, tox, toy, arrowWidth, color,secondClr='grey')=>{
     var headlen = 10;
     var angle = Math.atan2(toy-fromy,tox-fromx);
- 
+
+    ctx.beginPath();
     ctx.save();
     ctx.strokeStyle = color;
  

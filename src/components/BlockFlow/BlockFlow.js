@@ -13,6 +13,7 @@ import {writeText,drawLabel,drawLabelBig} from '../DrawText/TextDraw';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Navbar from '../Navbar/Navbar.js'
+import Form from 'react-bootstrap/Form';
 
 import './BlockFlow.css'
 
@@ -27,6 +28,7 @@ function BlockFlow() {
   const [blockString,setblockString]=useState([]);
   var  [simSpeed,setsimSpeed,simSpeedRef] = useState(1000);
   var  [btnActive,setbtnActive,btnActiveRef] = useState(1);
+  var  [indvActive,setindvActive,indvActiveRef] = useState(false);
 
   let canvasObjAxisInfo=[];
 
@@ -41,7 +43,7 @@ function BlockFlow() {
     
     setblockString(arr);
     console.log("reSetBlockString :"+blockString.length);
-    RectCanvas(arr);
+    RectCanvas(arr,ctx);
   }
   //const pat = RegExp(/(\w|"| |:|,|)*\}\}/g)
   //const pat = RegExp(/\{([a-zA-z0-9]|[^a-zA-z0-9])*(\w|"| |:|,|)*\}\}/g)
@@ -136,7 +138,7 @@ function BlockFlow() {
     ///////////////////////////////////////////////////////////////////////////////////
      ///  SCALING for dev only 
 
-    ctx.scale(0.460,0.460);
+    ctx.scale(0.430,0.430);
      ///////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////
@@ -148,23 +150,17 @@ function BlockFlow() {
     });
   };
 
+  async function Part1(){
 
-  async function RectCanvas(blockArray){
 
-    blockArray.sort((a,b)=> a.block_id>b.block_id);
-    console.log("RectCanvas "+ blockString.length+ " : x "+blockArray.length);
-    // const r1Info = { x: 20, y: 30, w: 100, h: 50 };
-    // const r1Style = { borderColor: 'red', borderWidth: 10 };
-    //drawRect(ctx,r1Info, r1Style);
+    const recClr = { x: 0, y: 0, w: canvas.current.width, h: canvas.current.height };
+    const recClrStyle = { borderColor: 'white', borderWidth: 0,backgroundColor: 'white' };
+    drawFillRect(ctx,recClr, recClrStyle);
 
     let nx=100/1;
     let p=0,ny=200/1,q=0;
     let yc=20 , xc=2*yc;
     let sx=900 ,sy=100,radius=25*2;
-
-    drawLineBetween(ctx,sx-radius*3,-50,sx-radius*3,canvas.current.height,{strokeClr:'black',lWidth:10});
-    writeText(ctx,{ text: 'Current BlockFlow', x:(sx-radius*3)/2, y:sy},68,{color:'#00a8ff'} );
-
     for(let i=0 ; i<numOfNodes; i=i+1,p=p+2){
 
       q=parseInt(i/yc);
@@ -172,7 +168,7 @@ function BlockFlow() {
       drawCircle(ctx,sx+(p*nx),sy+(q*ny),radius,{insideColor:'#2d3436',strokeClr:'#00a8ff'});
       writeText(ctx,{ text: 'Node '+(i+1), x:sx+(p*nx), y:90+(q*ny) },18,{color:'#00a8ff'} );
       //if(i==20){await sleep(3000);}
-
+      //if(i+1<numOfNodes) ctx.save();
       const saveAxisInfo= {
            cirX:sx+(p*nx),
            cirY:sy+(q*ny),
@@ -184,14 +180,38 @@ function BlockFlow() {
       canvasObjAxisInfo[i] = saveAxisInfo;
     }
 
-    await sleep(simSpeedRef.current);
-   
+    drawLineBetween(ctx,sx-radius*3,40,sx-radius*3,canvas.current.height,{strokeClr:'black',lWidth:10});
+    writeText(ctx,{ text: 'Current BlockFlow', x:(sx-radius*3)/2, y:sy},68,{color:'#00a8ff'} );
 
+   
+  }
+  async function RectCanvas(blockArray,ctx){
+
+    blockArray.sort((a,b)=> a.block_id>b.block_id);
+    
+    let nx=100/1;
+    let p=0,ny=200/1,q=0;
+    let yc=20 , xc=2*yc;
+    let sx=900 ,sy=100,radius=25*2;
+    
+    await Part1();
+
+    console.log("RectCanvas "+ blockString.length+ " : x "+blockArray.length);
+    // const r1Info = { x: 20, y: 30, w: 100, h: 50 };
+    // const r1Style = { borderColor: 'red', borderWidth: 10 };
+    //drawRect(ctx,r1Info, r1Style);
+
+    
+
+   
+    
+    await sleep(500);
+   
     let colorArray = ['#00a8ff',/*'aqua',*/'orange','chartreuse','crimson',
     'darkorange','dodgerblue','indigo', 'midnightblue','saddlebrown'];
 
     let colorIndex=-1,curBlockID=null;
-
+   
     for(let i = 0; i <blockArray.length;i++) {
 
       //if(i==50)break;
@@ -204,6 +224,7 @@ function BlockFlow() {
       //   ctx.restore();
 
       // }
+     
       const canvasData ={
         transmission_t:blockArray[i].transmission_timestamp,
         reception_t:blockArray[i].reception_timestamp,
@@ -214,6 +235,10 @@ function BlockFlow() {
 
       if(curBlockID!=canvasData.block_id){
 
+          console.log("CONTEXT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+          // ctx.restore();
+          // ctx.save();
+          if(indvActiveRef.current){await Part1();}
           if(curBlockID!=null)
           drawFillRect(ctx,{ x: (sx/2)-(radius), y: 7.0*sy, w: 90, h: 360 },
               { borderColor: 'white', borderWidth: 1,backgroundColor: 'white' });
@@ -274,8 +299,15 @@ function BlockFlow() {
        drawArrow(ctx,obj1.cirX+rad,obj1.cirY-25,
         obj2.cirX-rad,obj2.cirY+25,4,colorArray[colorIndex]);
        
+        
       console.log(" simSpeed "+ simSpeed +" X "+ simSpeedRef.current);
       await sleep(simSpeedRef.current)
+
+      while(simSpeedRef.current==-1){
+        await sleep(1000)
+        // i--;
+        //continue;
+      }
       const recClr = { x: (sx/2)-(radius*12.5), y: 17*sy-(radius/4), w: 900, h: 45 };
       const recClrStyle = { borderColor: 'white', borderWidth: 10,backgroundColor: 'white' };
       drawFillRect(ctx,recClr, recClrStyle);
@@ -368,24 +400,58 @@ function BlockFlow() {
  
   return (
     <div className="App">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
       {/* <h3>BlockFlow </h3> */}
       <Navbar pageName='BlockFlow'/>
+      
+      <div> 
+           { (btnActive==6) && 
+
+             <Button className='playBtn'variant="dark"onClick={()=>{setsimSpeed(1000) ;  setbtnActive(1)} }>
+               <i class="fas fa-play" ></i>
+             </Button>
+            
+           }
+           { (btnActive!=6) && 
+
+              <Button className='playBtn'variant="dark" onClick={()=>{setsimSpeed(-1) ;  setbtnActive(6)} }>
+                <i class="far fa-pause-circle" />
+              </Button>
+
+           }
+            {/* <Button  className='playBtn'variant="dark" > 
+             {(btnActive==6)? 
+                   <i class="fas fa-play" onClick={()=>{setsimSpeed(1000) ;  setbtnActive(6)} }></i>
+                   :
+                   <i class="far fa-pause-circle"  onClick={()=>{setsimSpeed(-1) ;  setbtnActive(0)} }></i>}
+            </Button>          */}
+   
+        <Button className='playBtn2' variant={(indvActiveRef.current)?"primary":"dark"} 
+             onClick={()=>{ setindvActive(!indvActiveRef.current)} }>
+               INDIVIDUAL BLOCK {(indvActiveRef.current)? "ON":"OFF"}
+              </Button>
+    
+      </div>
+      
       <Container  className='contSimSpeed'>
             <p className='paraSimSpeed'> Simulation Speed : </p>
-            <Button className='btn' active={(btnActive==1)} variant="dark" 
-                    onClick={()=>{setsimSpeed(1000); setbtnActive(1)}}>1x </Button>
-            <Button className='btn' active={(btnActive==2)}variant="dark" 
-                    onClick={()=>{setsimSpeed(500) ; setbtnActive(2)}}>2x </Button>
-            <Button className='btn' active={(btnActive==3)}variant="dark" 
-                    onClick={()=>{setsimSpeed(250) ; setbtnActive(3)}}>4x </Button>
-            <Button className='btn' active={(btnActive==4)}variant="dark" 
-                    onClick={()=>{setsimSpeed(100) ; setbtnActive(4)}}>16x </Button>
-            <Button className='btn' active={(btnActive==5)}variant="dark"
-                    onClick={()=>{setsimSpeed(0)   ; setbtnActive(5)}}>Inf </Button>
+            <Button className='btn1' active={(btnActive==1)} variant="dark" 
+                    onClick={()=>{setsimSpeed(1000); setbtnActive(1)}}>1x</Button>
+            <Button className='btn1' active={(btnActive==2)}variant="dark" 
+                    onClick={()=>{setsimSpeed(500) ; setbtnActive(2)}}>2x</Button>
+            <Button className='btn1' active={(btnActive==3)}variant="dark" 
+                    onClick={()=>{setsimSpeed(250) ; setbtnActive(3)}}>4x</Button>
+            <Button className='btn1' active={(btnActive==4)}variant="dark" 
+                    onClick={()=>{setsimSpeed(100) ; setbtnActive(4)}}>8x</Button>
+            <Button className='btn1' active={(btnActive==5)}variant="dark"
+                    onClick={()=>{setsimSpeed(0)   ; setbtnActive(5)}}>Inf</Button>
 
+           
       {/* { simSpeed} */}
       </Container>
-      <canvas ref={canvas}></canvas>
+
+      
+      <canvas className='canvasB' ref={canvas}></canvas>
     </div>
   );
 }
