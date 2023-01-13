@@ -37,8 +37,8 @@ const Homepage = () => {
     const handleSubmission = () => {
 
         if( !type 
-          ||((type=='BlockFlow'||type=='Connection-Table')&&(numOfNodes==0 || selectedFile.type!='application/json' || selectedFile.name!='output.json') ) 
-          ||((type=='ChainFlow')&&( selectedFile.type!='text/plain' || selectedFile.name!='blockList.txt' )    )
+          ||((type=='BlockFlow'||type=='Connection-Table')&&(numOfNodes==0 || selectedFile.type!='application/json' /*|| selectedFile.name!='output.json'*/) ) 
+          ||((type=='ChainFlow')&&( selectedFile.type!='text/plain' /*|| selectedFile.name!='blockList.txt'*/ )    )
           || !isFilePicked ){
              
             alert("Please fill every field with proper values.\nRead the instructions for more information");
@@ -58,12 +58,12 @@ const Homepage = () => {
     }
     return (
         
-       <div>
+       <div className='homepageContainer'>
         
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12 text-center">
-                <h3 class="animate-charcter"> Simplot</h3>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12 text-center">
+                <h3 className="animate-charcter"> Simplot</h3>
               </div>
             </div>
           </div>

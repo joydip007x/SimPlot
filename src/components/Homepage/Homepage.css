@@ -3,8 +3,8 @@ body{
     display: block;
     background-image: url('/public/b.jpg');
     height: auto;
-    object-fit: contain;
-    background-repeat:no-repeat;
+    object-fit: fill;
+    background-repeat:repeat;
     background-size: cover;
     background-position: top;
 }

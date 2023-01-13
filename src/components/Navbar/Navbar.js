@@ -1,4 +1,7 @@
 
+import React, {  useEffect/*,useState*/ } from 'react'
+import {useNavigate ,Link} from 'react-router-dom';
+
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -7,6 +10,7 @@ import './Navbar.css'
 
 function ColorSchemesExample(props) {
 
+  const navigate = useNavigate();
   let pageName,currentUrl;
   currentUrl= RegExp(/chainflow/g).exec(window.location.href);
   //console.log(currentUrl!=null);
@@ -16,6 +20,12 @@ function ColorSchemesExample(props) {
   
   pageName=window.location.href.split('/')[3];
 
+  useEffect(() => {
+    console.log("NAVBAR "+props.data.length);
+   
+  }, [props.data])
+  
+ 
   
   return (
     <>
@@ -23,12 +33,36 @@ function ColorSchemesExample(props) {
         <Navbar.Brand className='navBar' href="/homepage">Simplot...</Navbar.Brand>
         <Container  >
           <Nav className="me">
-            <Nav.Link href="/blockflow">BlockFlow</Nav.Link>
-            <Nav.Link href="/chainflow">ChainFlow</Nav.Link>
-            <Nav.Link href="/table">Connection-Table</Nav.Link>
+
+            { (props.root=='blockflow' ||props.root=='ctableflow') &&
+
+            <> 
+            <Nav.Link  onClick={()=>{
+              navigate('/blockflow', { replace: true ,state: {data: props.data,num:props.NoN}})}} 
+              >BlockFlow</Nav.Link> 
+            <Nav.Link  onClick={()=>{
+              navigate('/table', { replace: true ,state: {data: props.data,num:props.NoN}})}} 
+              >Connection-Table</Nav.Link>
+            </>
+            
+            }
+          
+            { (props.root=='chainflow') && 
+                 <>
+                <Nav.Link href="/chainflow">ChainFlow</Nav.Link>
+                <Nav.Link href="/mintDist">Minter Distribution</Nav.Link>
+                </>
+            }
           </Nav>
         </Container>
-             <p className='navBarPageName'  >{props.pageName}</p>
+        
+             <p className='navBarPageName '  >
+              {/* {props.pageName} */}
+              <div class="content">
+              <h2> {props.pageName}</h2>
+              <h2> {props.pageName}</h2>
+             </div>
+            </p>
       </Navbar>
       <br />
       {/* <Navbar bg="primary" variant="dark">

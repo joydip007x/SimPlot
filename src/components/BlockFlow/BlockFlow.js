@@ -1,5 +1,5 @@
 import React, { useRef, useEffect/*,useState*/ } from 'react'
-import {useLocation} from 'react-router-dom';
+import {useLocation,Navigate} from 'react-router-dom';
 
 import useState from 'react-usestateref'
 //FILE
@@ -103,6 +103,11 @@ function BlockFlow() {
               end_node_id:parseString(pat6_endNid,s),
               block_id:parseString(pat7_Blockid,s)
             }
+             
+            if( numOfNodes< flowBlock.end_node_id || numOfNodes<flowBlock.begin_node_id ){
+              alert("Error in Number Of Nodes Information or JSON format");
+              window.location.replace("/homepage/");
+            }
             temp[index]=flowBlock;
             index=index+1;
             // console.log(text.slice(arr1[0],arr2[0])+"}}" )
@@ -189,6 +194,7 @@ function BlockFlow() {
 
     blockArray.sort((a,b)=> a.block_id>b.block_id);
     
+    await sleep(500);
     let nx=100/1;
     let p=0,ny=200/1,q=0;
     let yc=20 , xc=2*yc;
@@ -205,7 +211,7 @@ function BlockFlow() {
 
    
     
-    await sleep(500);
+    
    
     let colorArray = ['#00a8ff',/*'aqua',*/'orange','chartreuse','crimson',
     'darkorange','dodgerblue','indigo', 'midnightblue','saddlebrown'];
@@ -254,7 +260,7 @@ function BlockFlow() {
      let obj1=canvasObjAxisInfo[canvasData.begin_node_id-1], 
          obj2=canvasObjAxisInfo[canvasData.end_node_id-1],
          rad=obj1.cirRadius;
-      
+     
       if(obj1.cirX>obj2.cirX || 
          (obj1.cirX==obj2.cirX && obj1.cirY>obj2.cirY) ) 
             [obj1, obj2]=[obj2, obj1];
@@ -402,20 +408,21 @@ function BlockFlow() {
     <div className="App">
        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
       {/* <h3>BlockFlow </h3> */}
-      <Navbar pageName='BlockFlow'/>
+      <Navbar pageName='BlockFlow' data={location.state?.data} 
+      root={'blockflow'} NoN={location.state?.num}/>
       
       <div> 
            { (btnActive==6) && 
 
              <Button className='playBtn'variant="dark"onClick={()=>{setsimSpeed(1000) ;  setbtnActive(1)} }>
-               <i class="fas fa-play" ></i>
+               <i className="fas fa-play" ></i>
              </Button>
             
            }
            { (btnActive!=6) && 
 
               <Button className='playBtn'variant="dark" onClick={()=>{setsimSpeed(-1) ;  setbtnActive(6)} }>
-                <i class="far fa-pause-circle" />
+                <i className="far fa-pause-circle" />
               </Button>
 
            }

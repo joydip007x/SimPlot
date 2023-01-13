@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import {useNavigate ,Link} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
 import Navbar from '../Navbar/Navbar.js'
 
@@ -13,8 +14,15 @@ const ConnectionTable = () => {
   const pat3 = RegExp(/\}\}/g) // matches '}}' ending of each transmission
 
   const navigate = useNavigate();
+  const location = useLocation();
   var text=null;
 
+
+  const data = location.state?.data;
+  const numOfNodes  = location.state?.num;
+
+  
+  console.log("000000000\n"+data+ data.type);
   const changeHandler = (event) => {
 
     setSelectedFile(event.target.files[0]);
@@ -67,7 +75,8 @@ const ConnectionTable = () => {
   
   return (
     <div>
-     <Navbar pageName='ConnectionTable'/>
+     <Navbar pageName='ConnectionTable' data={location.state?.data} 
+     root={'ctableflow'} NoN={location.state?.num}/>
      <div>ConnectionTable</div>
 
     <input type="file" name="file" onChange={changeHandler} />
