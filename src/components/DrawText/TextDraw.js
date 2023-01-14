@@ -1,9 +1,9 @@
 
 
-export const writeText = (ctx,info,sizeofFont ,style = {}) => {
+export const writeText = (ctx,info,sizeofFont ,style = { fontFam:'Arial'}) => {
       const { text, x, y } = info;
       const { fontSize = sizeofFont, 
-              fontFamily = 'Arial', 
+              fontFamily = style.fontFam, 
               color = 'black', 
               textAlign = 'center', 
               textBaseline = 'top' } = style;

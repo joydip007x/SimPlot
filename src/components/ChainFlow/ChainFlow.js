@@ -1,5 +1,7 @@
-import React, { useRef, useEffect,useState } from 'react'
+import React, { useRef, useEffect/*,useState*/ } from 'react'
 import {useLocation} from 'react-router-dom';
+
+import useState from 'react-usestateref'
 
 import Navbar from '../Navbar/Navbar.js'
 
@@ -18,17 +20,27 @@ export default function ChainFlow() {
     const canvas = useRef();
     let ctx = null,ctxwidth=null,ctxheight=null;
     
-    const [blockList,setblockList]=useState([]);
-  
+    var [blockList,setblockList,blockListRef]=useState([]);
+   // const [chainHeight,setChainHeight]=useState(-1);  
+    var  [chainHeight,setChainHeight,chainHeightRef] = useState(-1);
+
+
     const location = useLocation();
     const data = location.state?.data;
 
     console.log(" found CF " + data);
+
+    const sleep = async (milliseconds) => {
+      await new Promise(resolve => {
+          return setTimeout(resolve, milliseconds)
+      });
+    };
+
     function reSetblockList (arr){
       
       setblockList(arr);
       console.log("reSetblockList :"+blockList.length);
-      RectCanvas(arr);
+      // RectCanvas(arr);
     }
 
    // const pat = RegExp(/OnChain : [0-9]*(\w| |.|:)*/g) //Dumped
@@ -63,7 +75,7 @@ export default function ChainFlow() {
     useEffect(() => {
       
       var reader = new FileReader();
-      reader.onload = (event) => {
+      reader.onload =async (event) => {
 
           let text=event.target.result;
           console.log(text)
@@ -78,7 +90,7 @@ export default function ChainFlow() {
             arr1[index2]=match.index; index2=index2 + 1;
           }
           //console.log(arr1[0]+ " : "+arr2[0]+"\n"+index+index2 +text.slice(arr1[0],arr2[0])+"}}" )
-          index=0;
+          index=0; index2=0;
           for(var i=0 ; i<arr1.length; i++){
   
               let s=text.slice(arr1[i],arr2[i]);
@@ -89,10 +101,14 @@ export default function ChainFlow() {
                 Minter:parseString(pat2,s),
                 OnChain:parseString(pat4_orphan,s,1)? false:true,
               }
+              if(flowBlock.OnChain) index2++;
               temp[index]=flowBlock;
               index=index+1;
               console.log(s+":"+flowBlock.OnChain+" : "+flowBlock.ChainNo+" "+flowBlock.Minter);
           }
+          await sleep(2000);
+          setChainHeight(index2);
+          console.log("OK--------"+chainHeightRef.current)
           reSetblockList(temp);
           //console.log(blockList.length);
         };
@@ -101,16 +117,28 @@ export default function ChainFlow() {
     },[]);
   
     // init  canvas context
-    useEffect(() => {
+    useEffect( () => {
       // dynamically assign the width and height to canvas
-      const canvasEle = canvas.current;
-      canvasEle.width = window.innerWidth;
-      canvasEle.height = 6680;
-      
-      ctxwidth= canvasEle.width;
-      ctxheight= canvasEle.height ;
-      // get context of the canvas
-      ctx = canvasEle.getContext("2d");
+
+     async function createCanvas(){
+        while( chainHeightRef.current==-1){
+
+            await sleep(1000);
+        }
+        console.log("OK||"+chainHeightRef.current)
+        const canvasEle = canvas.current;
+        canvasEle.width = window.innerWidth;
+        canvasEle.height = 100+(120*chainHeightRef.current);
+        
+        ctxwidth= canvasEle.width;
+        ctxheight= canvasEle.height ;
+        // get context of the canvas
+        ctx = canvasEle.getContext("2d");
+
+        RectCanvas(blockListRef.current);
+     }
+     createCanvas();
+
       
     }, []);
   
@@ -127,7 +155,10 @@ export default function ChainFlow() {
       for(let i=0; i< blockArray.length ; i++ ){
 
         //console.log(":: "+blockArray[i].OnChain+" : BLock "+blockArray[i].ChainNo)
-
+        if(i+1==blockArray.length){
+          console.log("first")
+          writeText(ctx,{ text: '--- END ---', x:(ctxwidth/2)+40 ,y:ctxheight-45},48,{color:'black',fontFam:'monospace'} );
+        }
         if(!blockArray[i].OnChain){
            
            let j=i,sideVal=0,sideDir;
@@ -136,25 +167,25 @@ export default function ChainFlow() {
               if(blockArray[j].OnChain ){ i=j-1; j=0; break;}
               if( j-i>5 ){
                 
-                drawFillRect(ctx,{ x: sx+(-1*200*Math.max(1,Math.floor((j-i)/2))), y: sy+((stageCnt-1)*120), w: recW/1.5, h: recH },
+                drawFillRect(ctx,{ x: sx+(-1*200*Math.max(1,Math.floor((j-i)/2))), y: sy+((stageCnt-1)*120), w: recW/1, h: recH },
                             { backgroundColor:'#afb3b0',borderColor: 'black', borderWidth: 5 });
-                drawFillRect(ctx,{ x: sx+(1*200*Math.max(1,Math.floor((j-i)/2))), y: sy+((stageCnt-1)*120), w: recW/1.5, h: recH },
+                drawFillRect(ctx,{ x: sx+(1*200*Math.max(1,Math.floor((j-i)/2))), y: sy+((stageCnt-1)*120), w: recW/1, h: recH },
                             { backgroundColor:'#afb3b0',borderColor: 'black', borderWidth: 5 });
 
                 writeText(ctx,{ text: 'More Orphans', 
-                    x:sx+((recW/1.5)/2)+(1*200*Math.max(1,Math.floor((j-i)/2))), 
-                    y:sy+(recH/2.2)+((stageCnt-1)*120) },15,{color:'black'} );
+                    x:sx+((recW/1)/2)+(1*200*Math.max(1,Math.floor((j-i)/2))), 
+                    y:sy+(recH/2.2)+((stageCnt-1)*120) },18,{color:'black'} );
                 writeText(ctx,{ text: 'More Orphans', 
-                   x:sx+((recW/1.5)/2)+(-1*200*Math.max(1,Math.floor((j-i)/2))), 
-                   y:sy+(recH/2.2)+((stageCnt-1)*120) },15,{color:'black'} );
+                   x:sx+((recW/1)/2)+(-1*200*Math.max(1,Math.floor((j-i)/2))), 
+                   y:sy+(recH/2.2)+((stageCnt-1)*120) },18,{color:'black'} );
 
                 drawArrow(ctx, sx+(recW/2),sy+((stageCnt-2)*120)+recH-3,
                   sx+(-1*200*Math.max(1,Math.floor((j-i)/2)))+60,
                   sy+((stageCnt-1)*120)-(recH/6),2,'#545454','ash');
 
-                  drawArrow(ctx, sx+(recW/2),sy+((stageCnt-2)*120)+recH-3,
-                  sx+(1*200*Math.max(1,Math.floor((j-i)/2)))+60,
-                  sy+((stageCnt-1)*120)-(recH/6),2,'#545454','ash');
+                drawArrow(ctx, sx+(recW/2),sy+((stageCnt-2)*120)+recH-3,
+                sx+(1*200*Math.max(1,Math.floor((j-i)/2)))+60,
+                sy+((stageCnt-1)*120)-(recH/6),2,'#545454','ash');
 
                 break;
               }
@@ -164,11 +195,11 @@ export default function ChainFlow() {
               drawFillRect(ctx,rInfo, rStyle);
               writeText(ctx,{ text: 'Minter '+blockArray[i].Minter, 
                                x:sx+(recW/2)+(sideDir*200*Math.max(1,Math.floor((j-i)/2))), 
-                              y:sy+(recH/3)+((stageCnt-1)*120)+(recH/2.5) },12,{color:'black'} );
+                              y:sy+(recH/3)+((stageCnt-1)*120)+(recH/2.5) },13,{color:'black'} );
 
               writeText(ctx,{ text: 'Orphaned ', 
               x:sx+(recW/2)+(sideDir*200*Math.max(1,Math.floor((j-i)/2))), 
-              y:sy+(recH/2.2)+((stageCnt-1)*120) },18,{color:'black'} );
+              y:sy+(recH/2.6)+((stageCnt-1)*120) },19,{color:'black'} );
 
 
               drawArrow(ctx, sx+(recW/2),sy+((stageCnt-2)*120)+recH-3,
@@ -190,9 +221,48 @@ export default function ChainFlow() {
         y:sy+(recH/3)+25+((stageCnt-1)*120) },12,{color:'white'} );                
        if(i+1<blockArray.length)
         drawArrow(ctx, sx+(recW/2),sy+((stageCnt-1)*120)+recH-3,sx+(recW/2),sy+((stageCnt)*120)-(recH/6),5,'black','ash');
-
-      }
+       
       
+      }
+     
+    }
+  
+    // draw rectangle
+
+    return (
+      <div className="App">
+        <Navbar pageName='ChainFlow'  data={location.state?.data}
+         root={'chainflow'}
+        />
+        {/* <h3>Chain -- Flow </h3> */}
+        { chainHeightRef.current==-1 &&
+            <>
+            <div class="center">
+              <div class="wave"></div>
+              <div class="wave"></div>
+              <div class="wave"></div>
+              <div class="wave"></div>
+              <div class="wave"></div>
+              <div class="wave"></div>
+              <div class="wave"></div>
+              <div class="wave"></div>
+              <div class="wave"></div>
+              <div class="wave"></div>
+              
+            </div>
+            
+            </>
+
+        }
+        <canvas ref={canvas}></canvas>
+      </div>
+    );
+}
+
+
+
+/*
+ 
       // const r1Info = { x: ctxwidth/2, y: 30, w: 150, h: 60 };
       // const r1Style = { backgroundColor:'grey',borderColor: 'black', borderWidth: 5 };
       // drawFillRect(ctx,r1Info, r1Style);
@@ -223,15 +293,4 @@ export default function ChainFlow() {
   
       // ctx.clearRect(250, 80, 80, 120);
       //drawFillRect2(r3Info, { backgroundColor: 'green' });
-    }
-  
-    // draw rectangle
-
-    return (
-      <div className="App">
-        <Navbar pageName='ChainFlow'/>
-        {/* <h3>Chain -- Flow </h3> */}
-        <canvas ref={canvas}></canvas>
-      </div>
-    );
-}
+*/
