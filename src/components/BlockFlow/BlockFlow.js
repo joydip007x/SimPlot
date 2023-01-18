@@ -28,7 +28,7 @@ function BlockFlow() {
   const [blockString,setblockString]=useState([]);
   var  [simSpeed,setsimSpeed,simSpeedRef] = useState(-5);
   var  [btnActive,setbtnActive,btnActiveRef] = useState(0);
-  var  [indvActive,setindvActive,indvActiveRef] = useState(false);
+  var  [indvActive,setindvActive,indvActiveRef] = useState(true);
 
   let canvasObjAxisInfo=[];
 
@@ -136,6 +136,7 @@ function BlockFlow() {
     canvasEle.width = 2400*2;  ////// relation with scaling * num of nodes in canvas
     canvasEle.height = 1600*2;
     
+    console.log("SCREEN W = "+window.innerWidth + " H = "+window.innerHeight)
     cwidth = canvasEle.width;
     cheight = canvasEle.height;
     // get context of the canvas
@@ -202,11 +203,11 @@ function BlockFlow() {
         
     while(simSpeedRef.current==-5){
       
-      await sleep(1000)
+       await sleep(100)
       // i--;
       //continue;
     }
-    await sleep(500);
+    //await sleep(500);
     let nx=100/1;
     let p=0,ny=200/1,q=0;
     let yc=20 , xc=2*yc;
@@ -247,8 +248,8 @@ function BlockFlow() {
       /////////////////////////////////////////////////////////////////////////
       ////////////////////////////////////////////////////////////////////////////
 
-      drawCircle(ctx,(sx/2)-(radius*1.5),4*sy,150,{insideColor:'#2d3436',lineWidth:10,strokeClr:'#00a8ff'}); 
-      drawCircle(ctx,(sx/2)-(radius*1.5),14*sy,150,{insideColor:'#2d3436',lineWidth:10,strokeClr:'#00a8ff'});     
+      drawCircle(ctx,(sx/2)-(radius*1.5),4*sy,150,{insideColor:'#2d3436',lineWidth:10,strokeClr:colorArray[colorIndex]}); 
+      drawCircle(ctx,(sx/2)-(radius*1.5),14*sy,150,{insideColor:'#2d3436',lineWidth:10,strokeClr:colorArray[colorIndex]});     
     
       // drawLineBetween(ctx,(sx/2)-(radius*1.5),4*sy+(radius*3),
       // (sx/2)-(radius*1.5),14*sy-(radius*3),{strokeClr:colorArray[colorIndex],lWidth:10})
@@ -262,7 +263,8 @@ function BlockFlow() {
         console.log("CONTEXT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         // ctx.restore();
         // ctx.save();
-        if(indvActiveRef.current){await Part1();}
+        if(canvasData.transmission_t>100 &&
+            indvActiveRef.current  ){await Part1();}
         if(curBlockID!=null)
         drawFillRect(ctx,{ x: (sx/2)-(radius), y: 7.0*sy, w: 90, h: 360 },
             { borderColor: 'white', borderWidth: 1,backgroundColor: 'white' });
@@ -272,14 +274,14 @@ function BlockFlow() {
             {x:(sx/2)-(radius*1.5),y:14*sy},{x:(sx/2)-(radius*1.5),y:4*sy})  
 
         colorIndex=(colorIndex+1)%9;
-        await sleep(simSpeedRef.current*2);
+        await sleep(simSpeedRef.current);
     }
 
       writeText(ctx,{ text: 'Node '+canvasData.begin_node_id,
-               x:(sx/2)-(radius*1.5), y:4*sy-(radius/4)},48,{color:'#00a8ff'} );
+               x:(sx/2)-(radius*1.5), y:4*sy-(radius/4)},48,{color:colorArray[colorIndex]} );
 
       writeText(ctx,{ text: 'Node '+canvasData.end_node_id,
-               x:(sx/2)-(radius*1.5), y:14*sy-(radius/4)},48,{color:'#00a8ff'} );  
+               x:(sx/2)-(radius*1.5), y:14*sy-(radius/4)},48,{color:colorArray[colorIndex]} );  
                
       // writeText(ctx,{ text: 'Node '+canvasData.end_node_id,
       //          x:(sx/2)-(radius*1.5), y:14*sy-(radius/4)},48,{color:'#00a8ff'} );  
@@ -363,6 +365,7 @@ function BlockFlow() {
     
       </div>
       
+     { /*simSpeedRef.current!=-5 && */ 
       <Container  className='contSimSpeed'>
             <p className='paraSimSpeed'> Simulation Speed : </p>
             <Button className='btn1' active={(btnActive==1)} variant="dark" 
@@ -380,8 +383,8 @@ function BlockFlow() {
 
            
       {/* { simSpeed} */}
-      </Container>
-
+       </Container>
+      }
       {  simSpeedRef.current==-5 &&
          <>
           <div class="contentAnim" onClick={()=>{setsimSpeed(1500) ;  setbtnActive(1)} }>

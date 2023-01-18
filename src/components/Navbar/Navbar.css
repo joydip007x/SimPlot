@@ -60,8 +60,9 @@
 
 .content h2:nth-child(2) {
 	color: #212628;
-	animation: animate 6s ease-in-out infinite;
+	animation: animate 5s ease-in-out infinite;
 }
+
 
 @keyframes animate {
 	0%,
@@ -107,3 +108,4 @@
 	}
     
 }
+

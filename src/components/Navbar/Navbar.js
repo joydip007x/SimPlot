@@ -56,7 +56,7 @@ function ColorSchemesExample(props) {
           </Nav>
         </Container>
         
-             <p className='navBarPageName '  >
+             <p className='navBarPageName'>
               {/* {props.pageName} */}
               <div class="content">
               <h2> {props.pageName}</h2>

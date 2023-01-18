@@ -107,10 +107,10 @@ Button.active{
 
 .contentAnim h2:nth-child(2) {
     color: rgb(10, 134, 223);
-	animation: animate 6s ease-in-out infinite;
+	animation: animateBlockFlow 6s ease-in-out infinite;
 }
 
-@keyframes animate {
+@keyframes animateBlockFlow {
 	0%,
 	100% {
 		clip-path: polygon(
