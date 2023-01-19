@@ -29,8 +29,15 @@ function BlockFlow() {
   var  [simSpeed,setsimSpeed,simSpeedRef] = useState(-5);
   var  [btnActive,setbtnActive,btnActiveRef] = useState(0);
   var  [indvActive,setindvActive,indvActiveRef] = useState(true);
+  var  [colorIndex,setColorIndex,colorIndexRef] = useState(-1);
+
 
   let canvasObjAxisInfo=[];
+
+  let colorArray = ['#00a8ff',/*'aqua',*/'orange','chartreuse','crimson',
+  'darkorange','dodgerblue','indigo', 'midnightblue','saddlebrown'];
+
+  
 
   const location = useLocation();
   const data = location.state?.data;
@@ -189,7 +196,8 @@ function BlockFlow() {
     }
 
     drawLineBetween(ctx,sx-radius*3,40,sx-radius*3,canvas.current.height,{strokeClr:'black',lWidth:10});
-    writeText(ctx,{ text: 'Current BlockFlow', x:(sx-radius*3)/2, y:sy},68,{color:'#00a8ff'} );
+    writeText(ctx,{ text: 'Current BlockFlow', x:(sx-radius*3)/2, y:sy},68,
+              {color:/*colorArray[(colorIndexRef.current+1)%colorArray.length]*/'#050505'} );
 
    
   }
@@ -220,10 +228,7 @@ function BlockFlow() {
     // const r1Style = { borderColor: 'red', borderWidth: 10 };
     //drawRect(ctx,r1Info, r1Style);
 
-    let colorArray = ['#00a8ff',/*'aqua',*/'orange','chartreuse','crimson',
-    'darkorange','dodgerblue','indigo', 'midnightblue','saddlebrown'];
-
-    let colorIndex=-1,curBlockID=null;
+    let curBlockID=null;
    
     for(let i = 0; i <blockArray.length;i++) {
 
@@ -248,16 +253,6 @@ function BlockFlow() {
       /////////////////////////////////////////////////////////////////////////
       ////////////////////////////////////////////////////////////////////////////
 
-      drawCircle(ctx,(sx/2)-(radius*1.5),4*sy,150,{insideColor:'#2d3436',lineWidth:10,strokeClr:colorArray[colorIndex]}); 
-      drawCircle(ctx,(sx/2)-(radius*1.5),14*sy,150,{insideColor:'#2d3436',lineWidth:10,strokeClr:colorArray[colorIndex]});     
-    
-      // drawLineBetween(ctx,(sx/2)-(radius*1.5),4*sy+(radius*3),
-      // (sx/2)-(radius*1.5),14*sy-(radius*3),{strokeClr:colorArray[colorIndex],lWidth:10})
-
-      drawArrow(ctx,(sx/2)-(radius*1.5),4*sy+(radius*3),
-      (sx/2)-(radius*1.5),14*sy-(radius*4),15,colorArray[colorIndex],'black');
-
-
       if(curBlockID!=canvasData.block_id){
 
         console.log("CONTEXT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
@@ -270,18 +265,30 @@ function BlockFlow() {
             { borderColor: 'white', borderWidth: 1,backgroundColor: 'white' });
 
         curBlockID = canvasData.block_id;
-        drawLabelBig(ctx,'BlockID '+curBlockID,
-            {x:(sx/2)-(radius*1.5),y:14*sy},{x:(sx/2)-(radius*1.5),y:4*sy})  
-
-        colorIndex=(colorIndex+1)%9;
+       
+        setColorIndex((colorIndexRef.current+1)%colorArray.length)
         await sleep(simSpeedRef.current);
     }
+    ////////////////////////////////////////////////////////////////////////////
+      drawCircle(ctx,(sx/2)-(radius*1.5),4*sy,150,{insideColor:'#2d3436',lineWidth:10,strokeClr:colorArray[colorIndexRef.current]}); 
+      drawCircle(ctx,(sx/2)-(radius*1.5),14*sy,150,{insideColor:'#2d3436',lineWidth:10,strokeClr:colorArray[colorIndexRef.current]});     
+    
+      // drawLineBetween(ctx,(sx/2)-(radius*1.5),4*sy+(radius*3),
+      // (sx/2)-(radius*1.5),14*sy-(radius*3),{strokeClr:colorArray[colorIndex],lWidth:10})
+      drawLabelBig(ctx,'BlockID '+curBlockID,
+      {x:(sx/2)-(radius*1.5),y:14*sy},{x:(sx/2)-(radius*1.5),y:4*sy})  
+
+      drawArrow(ctx,(sx/2)-(radius*1.5),4*sy+(radius*3),
+      (sx/2)-(radius*1.5),14*sy-(radius*4),15,colorArray[colorIndexRef.current],'black');
+
+
+     
 
       writeText(ctx,{ text: 'Node '+canvasData.begin_node_id,
-               x:(sx/2)-(radius*1.5), y:4*sy-(radius/4)},48,{color:colorArray[colorIndex]} );
+               x:(sx/2)-(radius*1.5), y:4*sy-(radius/4)},48,{color:colorArray[colorIndexRef.current]} );
 
       writeText(ctx,{ text: 'Node '+canvasData.end_node_id,
-               x:(sx/2)-(radius*1.5), y:14*sy-(radius/4)},48,{color:colorArray[colorIndex]} );  
+               x:(sx/2)-(radius*1.5), y:14*sy-(radius/4)},48,{color:colorArray[colorIndexRef.current]} );  
                
       // writeText(ctx,{ text: 'Node '+canvasData.end_node_id,
       //          x:(sx/2)-(radius*1.5), y:14*sy-(radius/4)},48,{color:'#00a8ff'} );  
@@ -302,7 +309,7 @@ function BlockFlow() {
       //  obj2.cirX-rad,obj2.cirY+25,{strokeClr:colorArray[colorIndex],lWidth:3});
       
        drawArrow(ctx,obj1.cirX+rad,obj1.cirY-25,
-        obj2.cirX-rad,obj2.cirY+25,4,colorArray[colorIndex]);
+        obj2.cirX-rad,obj2.cirY+25,4,colorArray[colorIndexRef.current]);
        
         
       console.log(" simSpeed "+ simSpeed +" X "+ simSpeedRef.current);
@@ -326,7 +333,8 @@ function BlockFlow() {
 
   
   }
-
+  // var ss=colorArray[colorIndexRef.current]+' !important;';
+ 
   // draw rectangle
  
   return (
@@ -356,17 +364,26 @@ function BlockFlow() {
                    <i class="fas fa-play" onClick={()=>{setsimSpeed(1000) ;  setbtnActive(6)} }></i>
                    :
                    <i class="far fa-pause-circle"  onClick={()=>{setsimSpeed(-1) ;  setbtnActive(0)} }></i>}
-            </Button>          */}
-   
-        <Button className='playBtn2' variant={(indvActiveRef.current)?"primary":"dark"} 
-             onClick={()=>{ setindvActive(!indvActiveRef.current)} }>
+            </Button>          */}   
+      <Button className='playBtn2' /*variant={(indvActiveRef.current)?"primary":"dark"}*/
+              active={(indvActiveRef.current)} 
+             onClick={()=>{ setindvActive(!indvActiveRef.current)} }
+             >
                INDIVIDUAL BLOCK {(indvActiveRef.current)? "ON":"OFF"}
               </Button>
     
       </div>
-      
+
      { /*simSpeedRef.current!=-5 && */ 
       <Container  className='contSimSpeed'>
+     {/*////////////////////////Inline  STYLE/////////////////////////////*/}
+      <style>{
+        `\
+        .btn1.active,.playBtn2.active{\
+          background-color:${colorArray[colorIndexRef.current]+' !important;'}\
+        }\
+      `}</style>
+        {/*////////////////////////Inline  STYLE////////////////////////////*/}
             <p className='paraSimSpeed'> Simulation Speed : </p>
             <Button className='btn1' active={(btnActive==1)} variant="dark" 
                     onClick={()=>{setsimSpeed(1500); setbtnActive(1)}}>1x</Button>
