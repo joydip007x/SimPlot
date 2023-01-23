@@ -1,0 +1,5 @@
+
+
+1. draw N circles with node numbers 
+2. start 'From block id' to 'To block id' 
+3. Lines with serial time stamps 'DrawLine functions'
