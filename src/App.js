@@ -8,6 +8,7 @@ import ChainFlow from './components/ChainFlow/ChainFlow';
 import Navbar from './components/Navbar/Navbar.js';
 import Homepage from './components/Homepage/Homepage.js';
 import ConnectionTable from './components/ConnectionTable/ConnectionTable';
+import MinterDist from './components/MinterDist/MinterDist';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
                 <Route path='/blockflow'  element={<BlockFlow/>} />
                 <Route path='/chainflow'  element={<ChainFlow/>} />
                 <Route path='/table'  element={<ConnectionTable/>} />
+                <Route path='/mintDist'  element={<MinterDist/>} />
 
             </Routes>
         </BrowserRouter>

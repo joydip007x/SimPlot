@@ -47,10 +47,15 @@ function ColorSchemesExample(props) {
             
             }
           
-            { (props.root=='chainflow') && 
+            { (props.root=='chainflow' || props.root=='mintflow' ) && 
                  <>
-                <Nav.Link href="/chainflow">ChainFlow</Nav.Link>
-                <Nav.Link href="/mintDist">Minter Distribution</Nav.Link>
+                <Nav.Link onClick={()=>{
+                navigate('/chainflow', { replace: true ,state: {data: props.data}})}}
+                >ChainFlow</Nav.Link>
+                
+                <Nav.Link  onClick={()=>{
+                navigate('/mintDist', { replace: true ,state: {data: props.data}})}} 
+               >Minter Distribution</Nav.Link>
                 </>
             }
           </Nav>

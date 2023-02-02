@@ -6,14 +6,14 @@
     align-items: center;
     background: transparent;
     margin-left: 4%;
-    top:50% !important;
+    padding-top:40vh !important;
   }
   .wave {
     width: 5px;
     height: 100px;
     background: linear-gradient(45deg, rgb(10, 134, 223), rgb(0, 0, 0));
     margin: 10px;
-    animation: wave 1s linear infinite;
+    animation: wave 0.9s linear infinite;
     border-radius: 20px;
   }
   .wave:nth-child(2) {
