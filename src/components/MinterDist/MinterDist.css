@@ -1,0 +1,27 @@
+
+.wrapper{
+    width:90%;
+    height: 90%;
+    display:block;
+    overflow:hidden;
+    margin:0 auto;
+    padding: 60px 50px;
+    background:transparent;
+    border-radius:4px;
+  }
+  
+  #myChart4{
+    background:transparent;
+    height:100%;
+    width: 100% !important;
+  }
+  
+  h1{
+    font-family: Roboto;
+    color: #fff;
+    margin-top:50px;
+    font-weight:200;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+  }
