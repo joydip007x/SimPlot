@@ -1,76 +1,36 @@
 
-# SimPlot
-SimBlock visualize
-=======
-# Getting Started with Create React App
+# SimPlot 
+####visualize SimBlock 
+---------------------------
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+##### Created with :
+- ReactJS
+- HTML,CSS and
+- HTML5Canvas with ChartJS@2.8
 
-## Available Scripts
+# Aim of The Project :
+- Produce a Simulation  of **Block's flow**  in Blockchain network from the `Output.json` generated from [Simblock](https://github.com/dsg-titech/simblock) with **customisable simulation parameters**  i.e : simulation speed,individual blocks movement in network,simulation at a specific timestamp .
 
-In the project directory, you can run:
+- Visually represent the **Block-Tree**.`Blocks` with info like OnChain,Orphan,MinterID  from  blockList  generated from [Simblock](https://github.com/dsg-titech/simblock)
 
-### `npm start`
+- Display the **Minter Frequency** of the entire simulation in detail. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Demonstrate the **Routing-Table** interface of Each node in the simulation (in Progress)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+# Video : 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<a href="https://youtu.be/Qfy22XgM5DY">
+   <img src="https://i.ibb.co/ngBG9R0/ZZZZScreenshot-from-2023-02-09-15-29-11.png" alt="https://youtu.be/Qfy22XgM5DY"  border="2">
+</a>
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Sample Images :
+<img src="https://i.ibb.co/0qrSWx7/Screenshot-from-2023-02-09-15-29-11.png">
+<img src="https://i.ibb.co/Bs4vQy2/Screenshot-from-2023-02-09-15-29-28.png">
+<img src="https://i.ibb.co/YQCdjp0/Screenshot-from-2023-02-09-15-29-41.png">
+<img src="https://i.ibb.co/rZbDQ06/Screenshot-from-2023-02-09-15-29-55.png">
+<img src="https://i.ibb.co/ZhcwNS5/Screenshot-from-2023-02-09-15-29-58.png">
+<img src="https://i.ibb.co/6wh4jKS/Screenshot-from-2023-02-09-15-30-06.png">
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
->>>>>>> Initialize project using Create React App
 
