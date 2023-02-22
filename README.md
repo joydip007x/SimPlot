@@ -21,7 +21,7 @@
 # Video : 
 
 <a href="https://youtu.be/Qfy22XgM5DY">
-   <img src="https://i.ibb.co/ngBG9R0/ZZZZScreenshot-from-2023-02-09-15-29-11.png" alt="https://youtu.be/Qfy22XgM5DY"  border="2">
+   <img src="https://img.youtube.com/vi/Qfy22XgM5DY/maxresdefault.jpg"  alt="https://youtu.be/Qfy22XgM5DY"  >
 </a>
 
 
