@@ -1,7 +1,10 @@
 
 # SimPlot 
-####visualize SimBlock 
+#visualize SimBlock 
+
 ---------------------------
+Visualize Blockchains Created by  [Simblock](https://github.com/dsg-titech/simblock)
+*Still in Progress :) 
 
 ##### Created with :
 - ReactJS
